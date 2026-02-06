@@ -14,7 +14,7 @@ jobs:
 
       - uses: Thecode764/github-profile-3d-contrib@version-0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
 
       - name: Commit & Push
