@@ -408,14 +408,48 @@ h6 {
 
 /* Hero Section */
 .hero {
+  position: relative;
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  /* Center the container vertically */
+  padding-top: 120px;
+  padding-bottom: 4rem;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 15, 15, 0.4);
+  /* Dark overlay */
+  backdrop-filter: blur(2px);
+  /* -webkit-backdrop-filter: blur(16px); */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 120px;
-  /* Enough space to clear the navbar */
-  padding-bottom: 4rem;
 }
 
 .hero-title {
