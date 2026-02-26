@@ -39,7 +39,7 @@ function generateData() {
     const potteryBase = path.join(galleryDir, 'pottery');
     const potteryCollections = getDirectories(potteryBase);
     potteryCollections.forEach(collection => {
-        const { images, text } = getImagesAndText(path.join(potteryBase, collection), `/gallery/pottery/${collection}`);
+        const { images, text } = getImagesAndText(path.join(potteryBase, collection), `/Jung217/gallery/pottery/${collection}`);
         data.pottery.push({
             id: collection,
             name: collection.replace(/-/g, ' '),
@@ -54,7 +54,7 @@ function generateData() {
     const digitalBase = path.join(galleryDir, 'photography', 'digital');
     const digitalCameras = getDirectories(digitalBase);
     digitalCameras.forEach(camera => {
-        const { images, text } = getImagesAndText(path.join(digitalBase, camera), `/gallery/photography/digital/${camera}`);
+        const { images, text } = getImagesAndText(path.join(digitalBase, camera), `/Jung217/gallery/photography/digital/${camera}`);
         data.photography.digital.push({
             id: camera,
             name: camera.replace(/-/g, ' '),
@@ -72,7 +72,7 @@ function generateData() {
         const brandPath = path.join(filmBase, brand);
         const cameras = getDirectories(brandPath);
         cameras.forEach(camera => {
-            const { images, text } = getImagesAndText(path.join(brandPath, camera), `/gallery/photography/film/${brand}/${camera}`);
+            const { images, text } = getImagesAndText(path.join(brandPath, camera), `/Jung217/gallery/photography/film/${brand}/${camera}`);
             data.photography.film.push({
                 id: `${brand}-${camera}`,
                 brand: brand.replace(/-/g, ' '),

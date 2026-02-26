@@ -3,9 +3,9 @@
     {
       "id": "first-collection",
       "name": "first collection",
-      "coverImage": "/gallery/pottery/first-collection/mock1.jpg",
+      "coverImage": "/Jung217/gallery/pottery/first-collection/mock1.jpg",
       "images": [
-        "/gallery/pottery/first-collection/mock1.jpg"
+        "/Jung217/gallery/pottery/first-collection/mock1.jpg"
       ],
       "description": "My first pottery collection\n",
       "count": 1
@@ -16,9 +16,9 @@
       {
         "id": "sample-camera",
         "name": "sample camera",
-        "coverImage": "/gallery/photography/digital/sample-camera/mock1.jpg",
+        "coverImage": "/Jung217/gallery/photography/digital/sample-camera/mock1.jpg",
         "images": [
-          "/gallery/photography/digital/sample-camera/mock1.jpg"
+          "/Jung217/gallery/photography/digital/sample-camera/mock1.jpg"
         ],
         "description": "Sample digital camera\n",
         "count": 1
@@ -29,9 +29,9 @@
         "id": "sample-brand-sample-camera",
         "brand": "sample brand",
         "camera": "sample camera",
-        "coverImage": "/gallery/photography/film/sample-brand/sample-camera/mock1.jpg",
+        "coverImage": "/Jung217/gallery/photography/film/sample-brand/sample-camera/mock1.jpg",
         "images": [
-          "/gallery/photography/film/sample-brand/sample-camera/mock1.jpg"
+          "/Jung217/gallery/photography/film/sample-brand/sample-camera/mock1.jpg"
         ],
         "description": "Sample film camera\n",
         "count": 1
