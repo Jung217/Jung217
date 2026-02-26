@@ -1,0 +1,112 @@
+[02:43:03.333] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/client/components/builtin/global-not-found'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.371] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.408] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.452] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.703] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/client/components/builtin/global-not-found'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.775] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.802] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.848] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:03.951] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/client/components/builtin/global-not-found'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.088] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.118] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.138] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.176] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/client/components/builtin/global-not-found'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.214] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.245] Server  ERROR   ⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
+[02:43:04.266] Server  ERROR   Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/on-demand-entry-handler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/dev/hot-reloader-turbopack.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/router-server.js
+- /Users/jungmacbookair/Desktop/vsCode/Jung217/node_modules/next/dist/server/lib/start-server.js
