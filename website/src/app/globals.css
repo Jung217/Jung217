@@ -1449,163 +1449,6 @@ a.gc-pr:hover {
   box-shadow: inset 6px 6px 12px #040404, inset -6px -6px 12px #141414;
 }
 
-/* Custom Animated Email Button */
-.email-btn-wrapper {
-  margin-top: 1rem;
-}
-
-.email-btn-wrapper .button {
-  --primary: #ff5569;
-  --neutral-1: #f7f8f7;
-  --neutral-2: #e7e7e7;
-  --radius: 14px;
-
-  cursor: pointer;
-  border-radius: var(--radius);
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  border: none;
-  box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
-    0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.3s ease;
-  min-width: 200px;
-  padding: 20px;
-  height: 68px;
-  font-family: "Galano Grotesque", Poppins, Montserrat, sans-serif;
-  font-style: normal;
-  font-size: 18px;
-  font-weight: 600;
-  color: #000;
-  /* Original didn't specify white, using black for light theme button */
-}
-
-.email-btn-wrapper .button:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-    0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
-}
-
-.email-btn-wrapper .button:active,
-.email-btn-wrapper .button:focus {
-  transform: scale(1);
-  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-    0 10px 3px -3px rgba(0, 0, 0, 0.2);
-  outline: none;
-}
-
-.email-btn-wrapper .button:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-  border: 2.5px solid transparent;
-  background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45)) border-box;
-  z-index: 0;
-  transition: all 0.4s ease;
-}
-
-.email-btn-wrapper .button:hover::after {
-  transform: scale(1.05, 1.1);
-  box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
-}
-
-.email-btn-wrapper .button::before {
-  content: "";
-  inset: 7px 6px 6px 6px;
-  position: absolute;
-  background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
-  border-radius: 30px;
-  filter: blur(0.5px);
-  z-index: 2;
-}
-
-.email-btn-wrapper .state p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  color: #000;
-}
-
-.email-btn-wrapper .state .icon {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  transform: scale(1.25);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.email-btn-wrapper .state .icon svg {
-  overflow: visible;
-}
-
-/* Outline */
-.email-btn-wrapper .outline {
-  position: absolute;
-  border-radius: inherit;
-  overflow: hidden;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  inset: -2px -3.5px;
-}
-
-.email-btn-wrapper .outline::before {
-  content: "";
-  position: absolute;
-  inset: -100%;
-  background: conic-gradient(from 180deg,
-      transparent 60%,
-      white 80%,
-      transparent 100%);
-  animation: spin 2s linear infinite;
-  animation-play-state: paused;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.email-btn-wrapper .button:hover .outline {
-  opacity: 1;
-}
-
-.email-btn-wrapper .button:hover .outline::before {
-  animation-play-state: running;
-}
-
-/* Letters */
-.email-btn-wrapper .state p span {
-  display: block;
-  opacity: 0;
-  animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
-}
-
-.email-btn-wrapper .button:hover p span {
-  opacity: 1;
-  animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
-}
-
-.email-btn-wrapper .button:focus p span {
-  opacity: 1;
-  animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
-}
-
 @keyframes wave {
   30% {
     opacity: 1;
@@ -1870,5 +1713,325 @@ a.gc-pr:hover {
 
   .hero-title {
     font-size: 2.5rem;
+  }
+}
+
+/* ========== Contact Printer 元件樣式 (.cp- 前綴) ========== */
+.cp-outer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.cp-wrapper {
+  --printer-color: #dcdac4;
+  --printer-color-2: #c0beaa;
+  --receipt-color: #f5f5f5;
+
+  font-size: 14px;
+  position: relative;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  margin-bottom: 250px;
+  /* 為印出的收據留空間 */
+  width: 100%;
+}
+
+.cp-printer {
+  width: 100%;
+  height: 80px;
+  border-radius: 0 0 8px 8px;
+  background-color: var(--printer-color);
+  background-image: url(data:image/png;base64,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);
+  border: 2px solid var(--printer-color-2);
+  box-shadow: 0 16px 32px 0px #0002, 0 -30px 16px 0px #0001;
+}
+
+.cp-printer::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 2px solid #0003;
+  box-shadow: 0 12px 16px -12px #fff5 inset, 0 -6px 16px -6px #0003 inset, 0 6px 8px -6px #0004;
+  box-sizing: border-box;
+  background-color: inherit;
+  background-image: inherit;
+  filter: brightness(1.12);
+  z-index: 2;
+}
+
+.cp-printer::after {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  width: calc(100% - 60px);
+  height: 40px;
+  border-radius: 0 0 4px 4px;
+  border-bottom: 1px solid #0003;
+  background-color: inherit;
+  background-image: linear-gradient(to top, var(--printer-color), 60%, var(--printer-color-2));
+  box-shadow: 0 4px 4px -2px #0004;
+  z-index: 1;
+}
+
+.cp-printer-display {
+  z-index: 2;
+  display: flex;
+  padding: 6px 8px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 200px;
+  height: 32px;
+  background-color: #000;
+  background-image: linear-gradient(transparent 0, #fff2 90%, transparent 100%);
+  background-size: 100% 8px;
+  background-repeat: no-repeat;
+  border: 3px solid var(--printer-color-2);
+  border-radius: 6px;
+  box-sizing: border-box;
+  box-shadow: -1px -1px 2px 0 #fff9 inset, 1px 1px 5px 1px #000 inset, 0 0 1px 2px #0002;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.8em;
+  color: #5aff5a;
+  filter: drop-shadow(1px 1px 1px #0002);
+}
+
+.cp-print-button {
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  margin: 16px;
+  border: 1px solid #0001;
+  border-radius: 6px;
+  width: 48px;
+  height: 36px;
+  background-color: var(--printer-color);
+  box-shadow: 1px 1px 2px 0 #fff8 inset, -1px -1px 2px 0 #0002 inset, 0 2px 6px 0px #0002;
+  transition: box-shadow 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.cp-print-button:hover {
+  box-shadow: 2px 2px 2px 0 #fff9 inset, -2px -2px 2px 0 #0002 inset, 0 2px 10px 0px #0002;
+  transform: scale(1.05);
+}
+
+.cp-print-button:active {
+  box-shadow: 2px 2px 2px 0 #0002 inset, -2px -2px 2px 0 #fff9 inset, 0 0px 4px 0px #fff9;
+  transform: scale(0.95);
+}
+
+.cp-receipt-wrapper {
+  position: absolute;
+  top: 40px;
+  left: 14%;
+  width: 72%;
+  filter: drop-shadow(0 0 12px #0001);
+}
+
+.cp-receipt {
+  z-index: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 16px;
+  width: 100%;
+  min-height: 160px;
+  font-size: 0.75em;
+  font-family: "Azeret Mono", "Roboto Mono", monospace;
+  font-weight: 400;
+  color: #444;
+  background-color: var(--receipt-color);
+  box-shadow: 0 12px 12px 0 #0001, 0 24px 24px 0 #0001, 0 36px 36px 0 #0001;
+}
+
+.cp-receipt::before,
+.cp-receipt::after {
+  --angle: 45deg;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(calc(var(--angle) * -1), var(--receipt-color) 4px, transparent 0),
+    linear-gradient(var(--angle), var(--receipt-color) 4px, transparent 0);
+  background-position: 4px 0;
+  background-repeat: repeat-x;
+  background-size: 8px 8px;
+}
+
+.cp-receipt::before {
+  top: -7px;
+  background-position: 4px 0;
+}
+
+.cp-receipt::after {
+  bottom: -7px;
+  background-position: 0 100%;
+  --angle: 225deg;
+}
+
+.cp-receipt-header {
+  font-size: 1.1em;
+  font-weight: 600;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  position: relative;
+  /* 確保 logo 絕對定位以 header 為準 */
+}
+
+.cp-receipt-subheader {
+  /* 移除虛線 */
+  border-bottom: none;
+}
+
+.cp-receipt-message {
+  justify-content: center;
+  text-align: center;
+  padding: 0 1em;
+}
+
+.cp-receipt-subtotal td {
+  /* 移除虛線 */
+  border-top: none;
+}
+
+.cp-receipt-total td {
+  /* 移除虛線 */
+  border-top: none;
+  font-weight: 600;
+}
+
+.cp-receipt-table {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  line-height: 1.5em;
+}
+
+.cp-receipt-table th:last-child,
+.cp-receipt-table td:last-child {
+  text-align: right;
+}
+
+.cp-receipt-wrapper {
+  transform: translateY(-100%);
+  clip-path: inset(100% -100px -100px -100px);
+  transition: clip-path 0.5s;
+}
+
+.cp-letter-wrapper {
+  position: inherit;
+  display: flex;
+}
+
+.cp-letter {
+  display: inline-block;
+  opacity: 0;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-receipt-wrapper {
+  animation: cp-print 1.2s 1 forwards ease-in, cp-display 0.4s 1 forwards cubic-bezier(0, 0.63, 0.96, 1.1);
+  animation-delay: 0s, 1.35s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-printer-message {
+  opacity: 0;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(8) {
+  animation-delay: 0.4s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(9) {
+  animation-delay: 0.45s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(10) {
+  animation-delay: 0.5s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(11) {
+  animation-delay: 0.55s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter:nth-child(12) {
+  animation-delay: 0.6s;
+}
+
+.cp-wrapper:has(.cp-print-button:focus) .cp-letter {
+  animation: cp-show-text 0.6s 1 forwards linear;
+}
+
+@keyframes cp-print {
+  100% {
+    transform: translateY(10%);
+    clip-path: inset(-20% -100px -100px -100px);
+  }
+}
+
+@keyframes cp-display {
+  30% {
+    transform: translateY(22%) rotate3d(1, 0, 1, -5deg);
+  }
+
+  70% {
+    z-index: 5;
+  }
+
+  100% {
+    z-index: 5;
+    transform: translateY(-40%) scale(1.2);
+  }
+}
+
+@keyframes cp-show-text {
+
+  10%,
+  100% {
+    opacity: 1;
   }
 }
