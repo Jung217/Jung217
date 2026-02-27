@@ -8,12 +8,12 @@ export default function TerminalText({ text, typingSpeed = 50 }) {
 
     useEffect(() => {
         let i = 0;
+        let typeWriter;
         setDisplayedText('');
         setIsTyping(true);
 
-        // Add a slight delay before typing starts
         const startDelay = setTimeout(() => {
-            const typeWriter = setInterval(() => {
+            typeWriter = setInterval(() => {
                 if (i < text.length) {
                     setDisplayedText((prev) => prev + text.charAt(i));
                     i++;
@@ -22,11 +22,12 @@ export default function TerminalText({ text, typingSpeed = 50 }) {
                     clearInterval(typeWriter);
                 }
             }, typingSpeed);
-
-            return () => clearInterval(typeWriter);
         }, 500);
 
-        return () => clearTimeout(startDelay);
+        return () => {
+            clearTimeout(startDelay);
+            if (typeWriter) clearInterval(typeWriter);
+        };
     }, [text, typingSpeed]);
 
     return (

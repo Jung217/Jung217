@@ -598,12 +598,10 @@ h6 {
 .section p {
   font-size: 1.1rem;
   color: var(--text-secondary);
-  max-width: 800px;
 }
 
 /* Terminal Text Effect */
 .terminal-container {
-  max-width: 800px;
   width: 100%;
   /* 手機版自適應寬度 */
   background: rgba(10, 10, 10, 0.4);
@@ -623,6 +621,7 @@ h6 {
   /* Soft terminal green/blue/grey */
   line-height: 1.6;
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .terminal-prompt {
@@ -1892,12 +1891,10 @@ a.gc-pr:hover {
   align-items: flex-start;
   gap: 4px;
   position: relative;
-  /* 確保 logo 絕對定位以 header 為準 */
 }
 
 .cp-receipt-subheader {
-  /* 移除虛線 */
-  border-bottom: none;
+  border-bottom: 1px dashed #ccc;
 }
 
 .cp-receipt-message {
@@ -1907,13 +1904,11 @@ a.gc-pr:hover {
 }
 
 .cp-receipt-subtotal td {
-  /* 移除虛線 */
-  border-top: none;
+  border-top: 1px dashed #ccc;
 }
 
 .cp-receipt-total td {
-  /* 移除虛線 */
-  border-top: none;
+  border-top: 1px dashed #ccc;
   font-weight: 600;
 }
 

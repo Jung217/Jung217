@@ -20,7 +20,11 @@ export default function Home() {
 
         <section id="about" className="section">
           <h2>About me</h2>
-          <TerminalText text="我是簡志融，我是一位Photographer，同時我也是一位Programer。攝影與我而言不僅是一種記錄生活的方式，更是探索世界與自我表達的重要途徑。透過鏡頭，沉浸在拍攝中，我捕捉細節與光影的變化，並感受專注的力量。" />
+          <TerminalText
+            typingSpeed={20}
+            text={`｜I am CJ Chien, a multidisciplinary enthusiast specializing in Photography, Programming, and Ceramics. In programming, I focus on building efficient and aesthetic systems. With hands-on experience in Frontend development, Embedded Systems (C/C++), and automation tool creation, I excel at transforming complex logic into clean solutions. Photography is my lens to explore the world and express myself, while ceramics is the silent dialogue between hands and clay.
+
+我是簡志融，一位熱衷於攝影、程式開發與陶藝創作的跨領域實踐者。在程式開發領域，我專注於構建高效且美觀的系統。具備前端開發、嵌入式系統 (C/C++) 以及自動化工具開發的實戰經驗，擅長將複雜的邏輯轉化為簡潔的解決方案。攝影與我而言不僅是記錄生活，更是探索世界與自我表達的重要途徑；而陶藝則是雙手與泥土之間的無聲對話。`} />
         </section>
 
         <section id="skills" className="section">
