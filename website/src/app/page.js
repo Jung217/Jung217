@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import TerminalText from '@/components/TerminalText';
+import SkillCard from '@/components/SkillCard';
 
 export default function Home() {
   return (
@@ -23,25 +24,18 @@ export default function Home() {
 
         <section id="skills" className="section">
           <h2>Skills</h2>
-          <div className="skills-grid">
-            <div className="skill-category blob-card-base">
-              <div className="blob-card-bg" />
-              <div className="blob-card-blob" />
-              <div className="blob-card-content">
-                <h3>Photography</h3>
-                <p>Digital, Film, Studio Editing</p>
-              </div>
-            </div>
-            <div className="skill-category blob-card-base">
-              <div className="blob-card-bg" />
-              <div className="blob-card-blob" />
-              <div className="blob-card-content">
-                <h3>Programming</h3>
-                <p><strong>Language:</strong> C, C#, HTML, CSS, JS, Deno, Node.js, Python, Arduino, SQL, Unity, Linux</p>
-                <p><strong>Other:</strong> Unity, Linux, Blender, 3D printing</p>
-              </div>
-            </div>
+
+          {/* GitHub 3D Contribution Graph */}
+          <div className="gh-contrib-wrapper">
+            <img
+              src="https://raw.githubusercontent.com/Jung217/Jung217/main/profile-3d-contrib-simplify/profile-night-rainbow.svg"
+              alt="GitHub Contribution Graph"
+              className="gh-contrib-img"
+            />
           </div>
+
+          {/* GitHub PR 風格技能卡片 */}
+          <SkillCard />
         </section>
 
         <section id="education" className="section">
@@ -64,7 +58,7 @@ export default function Home() {
               <div className="education-watermark" style={{ backgroundImage: 'url(https://mbm.nqu.edu.tw/wp-content/uploads/2021/07/%E9%87%91%E5%A4%A7LOGO%E5%9C%93-1.svg)' }} />
               <div className="blob-card-content">
                 <div className="education-text">
-                  <h3>B.S. Department of Computer Science & Information Engineering</h3>
+                  <h3>B.S. Department of Computer Science &amp; Information Engineering</h3>
                   <p>National Quemoy University. (Sep. 2021 ~ May. 2025)</p>
                 </div>
               </div>
