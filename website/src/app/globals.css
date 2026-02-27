@@ -1894,7 +1894,45 @@ a.gc-pr:hover {
 }
 
 .cp-receipt-subheader {
-  border-bottom: 1px dashed #ccc;
+  /* 移除虛線 */
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.cp-receipt-contact {
+  padding: 0.5em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cp-contact-row {
+  display: flex;
+  font-size: 0.9em;
+}
+
+.cp-label {
+  width: 80px;
+  /* 固定標籤寬度以實現對齊 */
+  flex-shrink: 0;
+}
+
+.cp-value {
+  flex-grow: 1;
+  word-break: break-all;
+}
+
+.cp-divider {
+  border-top: 1px dashed #ccc;
+  margin: 0.2em 0;
+  width: 100%;
+}
+
+.cp-jack-trades {
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.9em;
+  padding: 0.5em 0;
 }
 
 .cp-receipt-message {

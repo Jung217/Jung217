@@ -1,10 +1,13 @@
 import React from 'react';
 
 const ContactPrinter = () => {
-    // 獲取當前日期與時間
+    // 獲取當前日期與時間 (強制 GMT+8)
     const now = new Date();
-    const formattedDate = now.toISOString().split('T')[0];
-    const formattedTime = now.toTimeString().split(' ')[0].substring(0, 5);
+    const options = { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+    const formatter = new Intl.DateTimeFormat('en-CA', options);
+    const parts = formatter.formatToParts(now);
+    const formattedDate = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
+    const formattedTime = `${parts.find(p => p.type === 'hour').value}:${parts.find(p => p.type === 'minute').value}`;
 
     return (
         <div className="cp-outer-wrapper">
@@ -33,6 +36,7 @@ const ContactPrinter = () => {
                             Contact Information <br />
                             {formattedDate} - {formattedTime}
                         </div>
+                        <div className="cp-divider" />
                         <div className="cp-receipt-header">
                             CJ Chien <br />
                             <span style={{ fontSize: '0.85em', fontWeight: 400 }}>
@@ -41,46 +45,47 @@ const ContactPrinter = () => {
                                 Taiwan (R.O.C.)
                             </span>
                         </div>
+                        <div className="cp-receipt-contact">
+                            <div className="cp-contact-row">
+                                <span className="cp-label">Email:</span>
+                                <span className="cp-value">cjchien17@gmail.com</span>
+                            </div>
+                            <div className="cp-contact-row">
+                                <span className="cp-label">Phone TW:</span>
+                                <span className="cp-value">+886 909160217</span>
+                            </div>
+                            <div className="cp-contact-row">
+                                <span className="cp-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CN:</span>
+                                <span className="cp-value">+86 15859212926</span>
+                            </div>
+                        </div>
+                        <div className="cp-divider" />
                         <table className="cp-receipt-table">
                             <tbody>
                                 <tr>
                                     <th>Service</th>
                                     <th>Level</th>
-                                    <th>Rate</th>
+                                    <th>Experience</th>
                                 </tr>
                                 <tr>
                                     <td>Photography</td>
                                     <td>Pro</td>
-                                    <td>★ ★ ★</td>
+                                    <td>10+ yrs</td>
                                 </tr>
                                 <tr>
                                     <td>Programming</td>
                                     <td>Dev</td>
-                                    <td>★ ★ ★</td>
+                                    <td>6+ yrs</td>
                                 </tr>
                                 <tr>
                                     <td>Ceramics</td>
                                     <td>Art</td>
-                                    <td>★ ★ ☆</td>
-                                </tr>
-                                <tr className="cp-receipt-subtotal">
-                                    <td colSpan={2}>Experience</td>
-                                    <td>4+ Yrs</td>
-                                </tr>
-                                <tr className="cp-receipt-total">
-                                    <td colSpan={1}>Phone TW</td>
-                                    <td colSpan={2}>+886 909160217</td>
-                                </tr>
-                                <tr className="cp-receipt-total">
-                                    <td colSpan={1}>Phone CN</td>
-                                    <td colSpan={2}>+86 15859212926</td>
-                                </tr>
-                                <tr className="cp-receipt-total">
-                                    <td colSpan={1}>Email</td>
-                                    <td colSpan={2} style={{ fontSize: '0.9em' }}>cjchien17@gmail.com</td>
+                                    <td>4+ yrs</td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div className="cp-divider" />
+                        <div className="cp-jack-trades">Jack-of-all-trades</div>
                         <div className="cp-receipt-message" style={{ fontSize: '0.85em', lineHeight: '1.2em' }}>
                             Feel free to reach out for collaborations or just to say hi!
                         </div>
