@@ -33,6 +33,11 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+  /* 防止小螢幕右側出現黑塊 */
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -92,12 +97,21 @@ h6 {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 200;
+  /* 必須高於 mobile-menu（150），讓漢堡 ✕ 可點 */
   background: rgba(15, 15, 15, 0.5);
   backdrop-filter: blur(2px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1.25rem 0;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  /* 滾動隱藏動畫 */
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 滾動時隱藏導覽列 */
+.main-nav.nav-hidden {
+  transform: translateY(-100%);
 }
 
 .nav-content {
@@ -120,6 +134,95 @@ h6 {
   display: flex;
   align-items: center;
   gap: 0;
+}
+
+/* 漢堡選單按鈕（手機版） */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 4px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  z-index: 200;
+  -webkit-appearance: none;
+  /* 清除 Safari/iOS 預設白底 */
+  appearance: none;
+}
+
+
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* 漢堡選單開啟狀態 */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* 手機版展開選單 */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 150;
+  background: rgba(9, 9, 9, 0.96);
+  backdrop-filter: blur(12px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  padding: 0.5rem 2rem;
+}
+
+.mobile-menu a:hover {
+  color: var(--accent);
 }
 
 /* Gallery and Photography Grid Styles -> List Cards */
@@ -711,10 +814,14 @@ h6 {
   display: flex;
   gap: 4rem;
   align-items: flex-start;
+  flex-wrap: wrap;
+  /* 小螢幕自動換行 */
 }
 
 .contact-info {
   flex: 1;
+  min-width: 280px;
+  /* 防止過窄 */
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -723,12 +830,14 @@ h6 {
 .contact-info p {
   font-size: 1.1rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
 }
 
 .contact-form {
   flex: 1;
+  min-width: 280px;
+  /* 防止過窄 */
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -1163,13 +1272,25 @@ h6 {
 
 /* Responsive */
 @media (max-width: 768px) {
+
+  /* 隱藏桌機版導覽列連結，顯示漢堡選單 */
   .nav-links {
     display: none;
+  }
+
+  .hamburger {
+    display: flex;
   }
 
   .collection-card {
     flex-direction: column;
     height: auto;
+    transform: skewX(0deg);
+    /* 手機版移除斜角 */
+  }
+
+  .collection-card:hover {
+    transform: skewX(0deg);
   }
 
   .card-image-wrapper {
@@ -1179,6 +1300,18 @@ h6 {
 
   .contact-container {
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 400px) {
+
+  /* 超小螢幕額外防護 */
+  .container {
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
   }
 }
