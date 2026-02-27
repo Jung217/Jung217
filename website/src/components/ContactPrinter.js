@@ -9,27 +9,67 @@ const ContactPrinter = () => {
     const formattedDate = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
     const formattedTime = `${parts.find(p => p.type === 'hour').value}:${parts.find(p => p.type === 'minute').value}`;
 
+    const renderPrinterHead = () => (
+        <>
+            <div className="cp-printer" />
+            <div className="cp-printer-display">
+                <span className="cp-printer-message"> Click to print information</span>
+                <div className="cp-letter-wrapper">
+                    {"Printing...".split("").map((char, index) => (
+                        <span key={index} className="cp-letter" style={{ animationDelay: `${index * 0.05}s` }}>
+                            {char}
+                        </span>
+                    ))}
+                </div>
+            </div>
+            <button className="cp-print-button">⬅︎</button>
+        </>
+    );
+
+    const renderContactInfo = () => (
+        <div className="cp-receipt-contact">
+            {[
+                { label: 'Email:', value: 'cjchien17@gmail.com' },
+                { label: 'Phone TW:', value: '+886 909160217' },
+                { label: '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0CN:', value: '+86 15859212926' }
+            ].map((item, idx) => (
+                <div key={idx} className="cp-contact-row">
+                    <span className="cp-label">{item.label}</span>
+                    <span className="cp-value">{item.value}</span>
+                </div>
+            ))}
+        </div>
+    );
+
+    const renderServiceTable = () => (
+        <table className="cp-receipt-table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Level</th>
+                    <th>Experience</th>
+                </tr>
+            </thead>
+            <tbody>
+                {[
+                    { s: 'Photography', l: 'Pro', e: '10+ yrs' },
+                    { s: 'Programming', l: 'Dev', e: '6+ yrs' },
+                    { s: 'Ceramics', l: 'Art', e: '4+ yrs' }
+                ].map((item, idx) => (
+                    <tr key={idx}>
+                        <td>{item.s}</td>
+                        <td>{item.l}</td>
+                        <td>{item.e}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+
     return (
         <div className="cp-outer-wrapper">
             <div className="cp-wrapper">
-                <div className="cp-printer" />
-                <div className="cp-printer-display">
-                    <span className="cp-printer-message"> Click to print information</span>
-                    <div className="cp-letter-wrapper">
-                        <span className="cp-letter">P</span>
-                        <span className="cp-letter">r</span>
-                        <span className="cp-letter">i</span>
-                        <span className="cp-letter">n</span>
-                        <span className="cp-letter">t</span>
-                        <span className="cp-letter">i</span>
-                        <span className="cp-letter">n</span>
-                        <span className="cp-letter">g</span>
-                        <span className="cp-letter">.</span>
-                        <span className="cp-letter">.</span>
-                        <span className="cp-letter">.</span>
-                    </div>
-                </div>
-                <button className="cp-print-button">⬅︎</button>
+                {renderPrinterHead()}
                 <div className="cp-receipt-wrapper">
                     <div className="cp-receipt">
                         <div className="cp-receipt-subheader">
@@ -45,45 +85,9 @@ const ContactPrinter = () => {
                                 Taiwan (R.O.C.)
                             </span>
                         </div>
-                        <div className="cp-receipt-contact">
-                            <div className="cp-contact-row">
-                                <span className="cp-label">Email:</span>
-                                <span className="cp-value">cjchien17@gmail.com</span>
-                            </div>
-                            <div className="cp-contact-row">
-                                <span className="cp-label">Phone TW:</span>
-                                <span className="cp-value">+886 909160217</span>
-                            </div>
-                            <div className="cp-contact-row">
-                                <span className="cp-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CN:</span>
-                                <span className="cp-value">+86 15859212926</span>
-                            </div>
-                        </div>
+                        {renderContactInfo()}
                         <div className="cp-divider" />
-                        <table className="cp-receipt-table">
-                            <tbody>
-                                <tr>
-                                    <th>Service</th>
-                                    <th>Level</th>
-                                    <th>Experience</th>
-                                </tr>
-                                <tr>
-                                    <td>Photography</td>
-                                    <td>Pro</td>
-                                    <td>10+ yrs</td>
-                                </tr>
-                                <tr>
-                                    <td>Programming</td>
-                                    <td>Dev</td>
-                                    <td>6+ yrs</td>
-                                </tr>
-                                <tr>
-                                    <td>Ceramics</td>
-                                    <td>Art</td>
-                                    <td>4+ yrs</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        {renderServiceTable()}
                         <div className="cp-divider" />
                         <div className="cp-jack-trades">Jack-of-all-trades</div>
                         <div className="cp-receipt-message" style={{ fontSize: '0.85em', lineHeight: '1.2em' }}>
@@ -94,6 +98,6 @@ const ContactPrinter = () => {
             </div>
         </div>
     );
-}
+};
 
 export default ContactPrinter;
