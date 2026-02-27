@@ -771,7 +771,8 @@ h6 {
   position: relative;
   width: 100%;
   /* 全寬自適應，像 education card 一樣 */
-  height: 460px;
+  height: 540px;
+  /* 增加高度 */
   /* 增加高度 */
   border-radius: 1em;
 }
@@ -987,6 +988,69 @@ h6 {
 /* 覆蓋全域 a:hover 黃色，tab 連結 hover 保持白色 */
 a.gc-tab:hover {
   color: #fff;
+}
+
+/* gc-pr 改為連結後，hover 不變黃 */
+a.gc-pr {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  /* 維持原本 flex 排版 */
+}
+
+a.gc-pr:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* GitHub Repo List 樣式語言列表 */
+.gc-repo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #e6edf3;
+  border-bottom: 1px solid #21262d;
+  transition: background 0.15s, color 0.15s;
+}
+
+.gc-repo-item:last-child {
+  border-bottom: none;
+}
+
+.gc-repo-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #4493f8;
+}
+
+/* 語言色點（仿 GitHub language dot） */
+.gc-lang-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* 語言名稱：藍色粗體，hover 時加底線 */
+.gc-lang-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4493f8;
+  text-decoration: none;
+}
+
+.gc-repo-item:hover .gc-lang-name {
+  text-decoration: underline;
+}
+
+/* Sparkline 靠右 */
+.gc-sparkline-wrap {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  opacity: 0.8;
 }
 
 /* PR 列表 */
