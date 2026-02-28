@@ -12,7 +12,7 @@ export default function Home() {
         <div className="hero-overlay" />
         <div className="container hero-content">
           <h1 className="hero-title">I'm <span>CJ Chien</span></h1>
-          <p className="hero-subtitle">Photographer and Programmer, also Ceramist.</p>
+          <p className="hero-subtitle">Always Be Willful, Follow No One.</p>
         </div>
       </section>
 
