@@ -1,16 +1,5 @@
 {
-  "pottery": [
-    {
-      "id": "first-collection",
-      "name": "first collection",
-      "coverImage": "/gallery/pottery/first-collection/mock1.jpg",
-      "images": [
-        "/gallery/pottery/first-collection/mock1.jpg"
-      ],
-      "description": "My first pottery collection\n",
-      "count": 1
-    }
-  ],
+  "pottery": [],
   "photography": {
     "digital": [
       {

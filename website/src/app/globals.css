@@ -1954,3 +1954,106 @@ a.gc-pr:hover {
     opacity: 1;
   }
 }
+
+/* ========== Pottery Carousel (多欄垂直滾動) (.pc- 前綴) ========== */
+.pc-scene {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  /* 上下漸層遮罩，讓邊緣自然淡出 */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+/* 每欄佔等寬 */
+.pc-column {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* 手機：只顯示第 1 欄 */
+@media (max-width: 640px) {
+
+  .pc-column-2,
+  .pc-column-3 {
+    display: none;
+  }
+}
+
+/* 平板：顯示前 2 欄 */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .pc-column-3 {
+    display: none;
+  }
+}
+
+/* .pc-strip 共用 */
+.pc-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.pc-strip:hover {
+  animation-play-state: paused;
+}
+
+/* 方向：往上 (0 → -50%) */
+@keyframes pc-scroll-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* 方向：往下 (-50% → 0) */
+@keyframes pc-scroll-down {
+  from {
+    transform: translateY(-50%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.pc-strip-up {
+  animation-name: pc-scroll-up;
+}
+
+.pc-strip-down {
+  animation-name: pc-scroll-down;
+}
+
+.pc-item {
+  width: 100%;
+  height: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pc-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.pc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

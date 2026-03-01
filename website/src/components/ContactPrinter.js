@@ -15,17 +15,11 @@ const ContactPrinter = () => {
             <div className="cp-printer-display">
                 <span className="cp-printer-message"> Click to print information</span>
                 <div className="cp-letter-wrapper">
-                    <span className="cp-letter">P</span>
-                    <span className="cp-letter">r</span>
-                    <span className="cp-letter">i</span>
-                    <span className="cp-letter">n</span>
-                    <span className="cp-letter">t</span>
-                    <span className="cp-letter">i</span>
-                    <span className="cp-letter">n</span>
-                    <span className="cp-letter">g</span>
-                    <span className="cp-letter">.</span>
-                    <span className="cp-letter">.</span>
-                    <span className="cp-letter">.</span>
+                    {"Printing...".split("").map((char, index) => (
+                        <span key={index} className="cp-letter" style={{ animationDelay: `${index * 0.05}s` }}>
+                            {char}
+                        </span>
+                    ))}
                 </div>
             </div>
             <button className="cp-print-button">⬅︎</button>
