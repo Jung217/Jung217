@@ -14,7 +14,9 @@ export default function Home() {
           <div className="hero-overlay" />
           <div className="container hero-content">
             <h1 className="hero-title">I'm <span>CJ Chien</span></h1>
-            <p className="hero-subtitle">Always Be Willful, Follow No One.</p>
+            <div className="hero-subtitle">
+              <TerminalText typingSpeed={50} text="Always Be Willful, Follow No One." />
+            </div>
           </div>
         </section>
 
@@ -22,11 +24,12 @@ export default function Home() {
 
           <section id="about" className="section">
             <h2>About me</h2>
-            <TerminalText
-              typingSpeed={20}
-              text={`II am CJ Chien, a multidisciplinary enthusiast specializing in Photography, Programming, and Ceramics. In programming, I focus on building efficient and aesthetic systems. With hands-on experience in Frontend development, Embedded Systems (C/C++), and automation tool creation, I excel at transforming complex logic into clean solutions. Photography is my lens to explore the world and express myself, while ceramics is the silent dialogue between hands and clay.
-
-我是簡志融，一位熱衷於攝影、程式開發與陶藝創作的跨領域實踐者。在程式開發領域，我專注於構建高效且美觀的系統。具備前端開發、嵌入式系統 (C/C++) 以及自動化工具開發的實戰經驗，擅長將複雜的邏輯轉化為簡潔的解決方案。攝影與我而言不僅是記錄生活，更是探索世界與自我表達的重要途徑；而陶藝則是雙手與泥土之間的無聲對話。`} />
+            <p style={{ lineHeight: '1.8', marginBottom: '1rem', textAlign: 'justify' }}>
+              I am CJ Chien, a multidisciplinary enthusiast specializing in Photography, Programming, and Ceramics. In programming, I focus on building efficient and aesthetic systems. With hands-on experience in Frontend development, Embedded Systems (C/C++), and automation tool creation, I excel at transforming complex logic into clean solutions. Photography is my lens to explore the world and express myself, while ceramics is the silent dialogue between hands and clay.
+            </p>
+            <p style={{ lineHeight: '1.8', textAlign: 'justify' }}>
+              我是簡志融，一位熱衷於攝影、程式開發與陶藝創作的跨領域實踐者。在程式開發領域，我專注於構建高效且美觀的系統。具備前端開發、嵌入式系統 (C/C++) 以及自動化工具開發的實戰經驗，擅長將複雜的邏輯轉化為簡潔的解決方案。攝影與我而言不僅是記錄生活，更是探索世界與自我表達的重要途徑；而陶藝則是雙手與泥土之間的無聲對話。
+            </p>
           </section>
 
           <section id="skills" className="section">

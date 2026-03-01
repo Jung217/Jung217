@@ -452,9 +452,19 @@ h6 {
 }
 
 .hero-subtitle {
-  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-size: clamp(1.5rem, 4vw, 3rem);
   color: var(--text-secondary);
   font-weight: 400;
+}
+
+/* hero 區域的 terminal 不需要 prompt 左移 */
+.hero-subtitle .terminal-prompt {
+  margin-right: 0.3rem;
+  margin-left: 0;
+}
+
+.hero-subtitle .terminal-container {
+  padding: 0;
 }
 
 /* Sections */
@@ -489,20 +499,13 @@ h6 {
 /* Terminal Text Effect */
 .terminal-container {
   width: 100%;
-  /* 手機版自適應寬度 */
-  background: rgba(10, 10, 10, 0.4);
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  border-left: 3px solid var(--accent);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   word-break: break-all;
-  /* 防止文字溢出 */
   box-sizing: border-box;
 }
 
 .terminal-text {
-  font-size: 1.1rem;
+  font-size: inherit;
   color: #a9b7c6;
   /* Soft terminal green/blue/grey */
   line-height: 1.6;
