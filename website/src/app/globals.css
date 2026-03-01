@@ -149,8 +149,9 @@ h6 {
   transition: background 0.2s ease;
   z-index: 200;
   -webkit-appearance: none;
-  /* 清除 Safari/iOS 預設白底 */
   appearance: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -1927,7 +1928,7 @@ a.gc-pr:hover {
 @keyframes cp-print {
   100% {
     transform: translateY(10%);
-    clip-path: inset(-20% -100px -100px -100px);
+    clip-path: inset(-10% -100px -100px -100px);
   }
 }
 
