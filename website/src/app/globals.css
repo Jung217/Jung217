@@ -2125,3 +2125,168 @@ a.gc-pr:hover {
 .pc-lightbox-close:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* ========== Social Float (.sf- 前綴) ========== */
+.sf-card {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 500;
+  border-radius: 15px;
+  backdrop-filter: blur(15px);
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.05),
+    inset 0 0 5px rgba(255, 255, 255, 0.08),
+    0 5px 20px rgba(0, 0, 0, 0.4);
+  transition: background 0.5s;
+}
+
+.sf-card:hover {
+  background: rgba(30, 30, 30, 0.3);
+}
+
+.sf-list {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  list-style: none;
+  align-items: center;
+}
+
+/* 每個社群項目 */
+.sf-iso-pro {
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.sf-svg {
+  padding: 1rem;
+  height: 60px;
+  width: 60px;
+  border-radius: 100%;
+  color: var(--accent);
+  fill: currentColor;
+  transition: all 0.3s;
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.08),
+    inset 0 0 5px rgba(255, 255, 255, 0.12),
+    0 5px 10px rgba(0, 0, 0, 0.3);
+  display: block;
+}
+
+/* 文字標籤：出現在圖示上方 */
+.sf-text {
+  opacity: 0;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 5px 8px;
+  transition: all 0.3s;
+  color: var(--accent);
+  background: rgba(15, 15, 15, 0.85);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  white-space: nowrap;
+  z-index: 9999;
+  box-shadow:
+    0 0 10px rgba(234, 179, 8, 0.1),
+    0 5px 10px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* 等距立體陰影層 */
+.sf-iso-pro span {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--accent);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  box-shadow: inset 0 0 20px rgba(234, 179, 8, 0.05), 0 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s;
+  height: 60px;
+  width: 60px;
+  pointer-events: none;
+}
+
+/* Hover 效果：向上彈出 */
+.sf-iso-pro:hover a>.sf-svg {
+  transform: translate(-15px, -15px);
+}
+
+.sf-iso-pro:hover .sf-svg {
+  transform: translate(-5px, -5px);
+}
+
+.sf-iso-pro:hover .sf-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.sf-iso-pro:hover span {
+  opacity: 1;
+}
+
+.sf-iso-pro:hover span:nth-child(1) {
+  opacity: 0.2;
+}
+
+.sf-iso-pro:hover span:nth-child(2) {
+  opacity: 0.4;
+  transform: translate(-5px, -5px);
+}
+
+.sf-iso-pro:hover span:nth-child(3) {
+  opacity: 0.6;
+  transform: translate(-10px, -10px);
+}
+
+/* 手機版縮放 */
+@media (max-width: 640px) {
+  .sf-card {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .sf-list {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .sf-svg {
+    height: 36px;
+    width: 36px;
+    padding: 0.6rem;
+  }
+
+  .sf-iso-pro span {
+    height: 36px;
+    width: 36px;
+  }
+
+  .sf-text {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+    bottom: calc(100% + 6px);
+  }
+}
+
+/* 平板版微調 */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .sf-svg {
+    height: 48px;
+    width: 48px;
+    padding: 0.8rem;
+  }
+
+  .sf-iso-pro span {
+    height: 48px;
+    width: 48px;
+  }
+}
