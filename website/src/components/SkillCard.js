@@ -142,6 +142,7 @@ export default function SkillCard() {
                                 { lang: 'Jupyter Notebook', key: 'jupyter-notebook', color: '#DA5B0B', pts: [1, 1, 1, 5, 1, 1, 7, 1, 1, 6, 1, 1, 8, 1] },
                                 { lang: 'Python', key: 'python', color: '#3572A5', pts: [4, 5, 6, 5, 7, 6, 7, 8, 7, 8, 9, 8, 9, 8] },
                                 { lang: 'Scilab', key: 'scilab', color: '#a7a7a7', pts: [1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1] },
+                                { lang: 'Shell', key: 'shell', color: '#89e051', pts: [1, 2, 1, 3, 2, 3, 4, 3, 4, 5, 4, 5, 6, 5] },
                                 { lang: 'Swift', key: 'swift', color: '#F05138', pts: [2, 3, 2, 4, 3, 4, 5, 4, 5, 6, 5, 6, 7, 6] },
                                 { lang: 'TypeScript', key: 'typescript', color: '#3178c6', pts: [2, 3, 4, 3, 5, 4, 6, 5, 7, 6, 8, 7, 8, 9] },
                             ].map((item, i) => (
