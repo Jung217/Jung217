@@ -76,6 +76,21 @@ export default function Home() {
             </ul>
           </section>
 
+          <section id="spotify" className="section">
+            <h2>Spotify</h2>
+            <iframe
+              data-testid="embed-iframe"
+              style={{ borderRadius: '12px' }}
+              src="https://open.spotify.com/embed/artist/2AfmfGFbe0A0WsTYm0SDTx?utm_source=generator&theme=0"
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowFullScreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            ></iframe>
+          </section>
+
           <section id="contact" className="section">
             <h2>Contact Me</h2>
             {/* contact-info 佔滿整行，移除原本空的 contact-form */}
