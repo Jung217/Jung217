@@ -5,8 +5,35 @@ import SkillCard from '@/components/SkillCard';
 import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
 
+async function getAccessToken() {
+  const client_id = process.env.SPOTIFY_CLIENT_ID;
+  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+  const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
+
+  if (!client_id || !client_secret || !refresh_token) return null;
+
+  const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+  const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
+
+  const response = await fetch(TOKEN_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${basic}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token,
+    }),
+    next: { revalidate: 3600 }
+  });
+
+  const data = await response.json();
+  return data.access_token;
+}
+
 async function fetchWebApi(endpoint, method, body) {
-  const token = process.env.SPOTIFY_TOKEN;
+  const token = await getAccessToken();
   if (!token) return null;
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
     headers: {
