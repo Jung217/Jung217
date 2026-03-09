@@ -5,7 +5,32 @@ import SkillCard from '@/components/SkillCard';
 import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
 
-export default function Home() {
+async function fetchWebApi(endpoint, method, body) {
+  const token = process.env.SPOTIFY_TOKEN;
+  if (!token) return null;
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    method,
+    body: body ? JSON.stringify(body) : undefined,
+    next: { revalidate: 3600 } // 快取一小時
+  });
+  if (!res.ok) {
+    console.error("Spotify API Error:", res.statusText);
+    return null;
+  }
+  return await res.json();
+}
+
+async function getTopTracks() {
+  const data = await fetchWebApi('v1/me/top/tracks?time_range=short_term&limit=5', 'GET');
+  return data?.items || [];
+}
+
+export default async function Home() {
+  const topTracks = await getTopTracks();
+
   return (
     <>
       <div className="animate-fade-in">
@@ -78,9 +103,41 @@ export default function Home() {
 
           <section id="spotify" className="section">
             <h2>Spotify</h2>
+
+            {/* 若成功抓取 Top Tracks 則顯示 */}
+            {topTracks && topTracks.length > 0 && (
+              <div className="spotify-top-tracks">
+                <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>My Top Tracks</h3>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                  {topTracks.map((track, index) => (
+                    <li key={track.id} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                      <span style={{ color: '#888', fontWeight: 'bold', width: '20px', textAlign: 'right' }}>{index + 1}.</span>
+                      {track.album?.images?.[2]?.url && (
+                        <img
+                          src={track.album.images[2].url}
+                          alt={track.album.name}
+                          style={{ width: '40px', height: '40px', borderRadius: '4px' }}
+                        />
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <a href={track.external_urls?.spotify} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            {track.name}
+                          </a>
+                        </div>
+                        <div style={{ fontSize: '0.85em', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {track.artists.map(artist => artist.name).join(', ')}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <iframe
               data-testid="embed-iframe"
-              style={{ borderRadius: '12px' }}
+              style={{ borderRadius: '12px', marginBottom: '2rem' }}
               src="https://open.spotify.com/embed/artist/2AfmfGFbe0A0WsTYm0SDTx?utm_source=generator&theme=0"
               width="100%"
               height="352"
@@ -89,6 +146,7 @@ export default function Home() {
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
             ></iframe>
+
           </section>
 
           <section id="contact" className="section">
