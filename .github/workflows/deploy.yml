@@ -36,6 +36,10 @@ jobs:
         run: node scripts/generate-data.js
       - name: Build with Next.js
         working-directory: ./website
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
