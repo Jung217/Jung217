@@ -1,13 +1,26 @@
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 
 const ContactPrinter = () => {
-    // 獲取當前日期與時間 (強制 GMT+8)
-    const now = new Date();
-    const options = { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
-    const formatter = new Intl.DateTimeFormat('en-CA', options);
-    const parts = formatter.formatToParts(now);
-    const formattedDate = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
-    const formattedTime = `${parts.find(p => p.type === 'hour').value}:${parts.find(p => p.type === 'minute').value}`;
+    const [timeStr, setTimeStr] = useState('');
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        const updateTime = () => {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+            const formatter = new Intl.DateTimeFormat('en-CA', options);
+            const parts = formatter.formatToParts(now);
+            const formattedDate = `${parts.find(p => p.type === 'year').value}-${parts.find(p => p.type === 'month').value}-${parts.find(p => p.type === 'day').value}`;
+            const formattedTime = `${parts.find(p => p.type === 'hour').value}:${parts.find(p => p.type === 'minute').value}`;
+            setTimeStr(`${formattedDate} - ${formattedTime}`);
+        };
+
+        updateTime(); // 初始抓取
+        const intervalId = setInterval(updateTime, 1000); // 每秒自動更新
+        return () => clearInterval(intervalId); // 元件卸載時清除計時器
+    }, []);
 
     const renderPrinterHead = () => (
         <>
@@ -74,7 +87,7 @@ const ContactPrinter = () => {
                     <div className="cp-receipt">
                         <div className="cp-receipt-subheader">
                             Contact Information <br />
-                            {formattedDate} - {formattedTime}
+                            <span suppressHydrationWarning>{mounted ? timeStr : '\u00A0'}</span>
                         </div>
                         <div className="cp-divider" />
                         <div className="cp-receipt-header">
