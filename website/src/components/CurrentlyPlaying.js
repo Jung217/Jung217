@@ -21,13 +21,19 @@ export default function CurrentlyPlaying({ initialToken }) {
                 cache: 'no-store',
             });
 
+            if (response.status === 401) {
+                console.warn('Spotify access token expired, reloading page...');
+                window.location.reload();
+                return;
+            }
+
             if (response.status === 204 || response.status > 400) {
                 setSongInfo(null);
                 return;
             }
 
             const data = await response.json();
-            setRawData(data); // 儲存完整的 API 回傳資料供顯示
+            setRawData(data);
 
             if (!data.is_playing) {
                 setSongInfo(null);
