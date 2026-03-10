@@ -42,7 +42,7 @@ async function fetchWebApi(endpoint, method, body) {
     },
     method,
     body: body ? JSON.stringify(body) : undefined,
-    next: { revalidate: 3600 } // 快取一小時
+    next: { revalidate: 3600 }
   });
   if (!res.ok) {
     console.error("Spotify API Error:", res.statusText);
@@ -89,7 +89,6 @@ export default async function Home() {
           <section id="skills" className="section">
             <h2>Skills</h2>
 
-            {/* GitHub 3D Contribution Graph */}
             <div className="gh-contrib-wrapper">
               <img
                 src="https://raw.githubusercontent.com/Jung217/Jung217/main/profile-3d-contrib-simplify/profile-night-rainbow.svg"
@@ -98,7 +97,6 @@ export default async function Home() {
               />
             </div>
 
-            {/* GitHub PR 風格技能卡片 */}
             <SkillCard />
           </section>
 
@@ -134,15 +132,11 @@ export default async function Home() {
             <h2>Spotify</h2>
 
             <div className="spotify-layout">
-              {/* 左側 / 上方：當前播放 (Currently Playing) */}
               <div className="spotify-left">
-                {/* 客戶端元件：動態顯示當前播放歌曲，傳入 Token 供前端輪詢 */}
                 <CurrentlyPlaying initialToken={token} />
               </div>
 
-              {/* 右側 / 下方：Top Tracks */}
               <div className="spotify-right">
-                {/* 若成功抓取 Top Tracks 則顯示 */}
                 {topTracks && topTracks.length > 0 && (
                   <div className="spotify-top-tracks">
                     <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>My Top Tracks</h3>
@@ -191,7 +185,6 @@ export default async function Home() {
 
           <section id="contact" className="section">
             <h2>Contact Me</h2>
-            {/* contact-info 佔滿整行，移除原本空的 contact-form */}
             <div className="contact-info">
               <div style={{ marginTop: '0px' }}>
                 <ContactPrinter />
