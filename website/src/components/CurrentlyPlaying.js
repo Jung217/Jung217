@@ -14,7 +14,6 @@ export default function CurrentlyPlaying({ initialToken }) {
         }
 
         try {
-            // 改打 `/player` endpoint 來同時取得 track 資訊與 device 資訊
             const response = await fetch('https://api.spotify.com/v1/me/player', {
                 headers: {
                     Authorization: `Bearer ${initialToken}`,
@@ -93,6 +92,8 @@ export default function CurrentlyPlaying({ initialToken }) {
                 </div>
             )}
             <div className="cp-info">
+                <div className="cp-title">{songInfo.title}</div>
+                <div className="cp-artist">{songInfo.artist}</div>
                 <div className="cp-header">
                     <span className="cp-badge">Now Playing</span>
                     {songInfo.device && (
@@ -106,9 +107,6 @@ export default function CurrentlyPlaying({ initialToken }) {
                         <span className="bar bar3"></span>
                     </div>
                 </div>
-
-                <div className="cp-title">{songInfo.title}</div>
-                <div className="cp-artist">{songInfo.artist}</div>
             </div>
         </a>
     );

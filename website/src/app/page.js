@@ -142,25 +142,28 @@ export default async function Home() {
                     <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>My Top Tracks</h3>
                     <ul style={{ listStyleType: 'none', padding: 0 }}>
                       {topTracks.map((track, index) => (
-                        <li key={track.id} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
-                          <span style={{ color: '#888', fontWeight: 'bold', width: '20px', textAlign: 'right' }}>{index + 1}.</span>
-                          {track.album?.images?.[2]?.url && (
-                            <img
-                              src={track.album.images[2].url}
-                              alt={track.album.name}
-                              style={{ width: '40px', height: '40px', borderRadius: '4px' }}
-                            />
-                          )}
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              <a href={track.external_urls?.spotify} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                {track.name}
-                              </a>
+                        <li key={track.id} className="top-track-item">
+                          <a
+                            href={track.external_urls?.spotify}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="top-track-link"
+                          >
+                            <span className="top-track-index">{index + 1}.</span>
+                            {track.album?.images?.[2]?.url && (
+                              <img
+                                src={track.album.images[2].url}
+                                alt={track.album.name}
+                                className="top-track-img"
+                              />
+                            )}
+                            <div className="top-track-info">
+                              <div className="top-track-name">{track.name}</div>
+                              <div className="top-track-artist">
+                                {track.artists.map(artist => artist.name).join(', ')}
+                              </div>
                             </div>
-                            <div style={{ fontSize: '0.85em', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                              {track.artists.map(artist => artist.name).join(', ')}
-                            </div>
-                          </div>
+                          </a>
                         </li>
                       ))}
                     </ul>
