@@ -2293,3 +2293,319 @@ a.gc-pr:hover {
     width: 48px;
   }
 }
+
+/* ========== Spotify Currently Playing ========== */
+.currently-playing {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(20, 20, 20, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+  color: #fff;
+}
+
+.currently-playing.active:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: rgba(30, 30, 30, 0.6);
+  border-color: rgba(29, 185, 84, 0.4);
+  /* Spotify Green subtle border */
+  box-shadow: 0 8px 24px rgba(29, 185, 84, 0.15);
+}
+
+.currently-playing.none,
+.currently-playing.skeleton {
+  pointer-events: none;
+  justify-content: center;
+  max-width: 100%;
+  /* If empty, let it span or center gracefully */
+  background: rgba(15, 15, 15, 0.3);
+}
+
+.cp-album-art {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  animation: spin 8s linear infinite;
+  transition: all 0.3s ease;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cp-album-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 模擬黑膠中間的圓孔洞 */
+.cp-overlay-cd {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #090909;
+  /* 配合背景色 */
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.cp-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.cp-badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #1DB954;
+  /* Spotify Green */
+}
+
+/* 均衡器動畫 (Equalizer) */
+.cp-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.cp-equalizer .bar {
+  width: 3px;
+  background-color: #1DB954;
+  border-radius: 1px;
+}
+
+.bar1 {
+  animation: eq-bounce 1s ease-in-out infinite;
+}
+
+.bar2 {
+  animation: eq-bounce 1.2s ease-in-out infinite 0.2s;
+}
+
+.bar3 {
+  animation: eq-bounce 0.8s ease-in-out infinite 0.4s;
+}
+
+@keyframes eq-bounce {
+
+  0%,
+  100% {
+    height: 2px;
+  }
+
+  50% {
+    height: 10px;
+  }
+}
+
+.cp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.cp-artist {
+  font-size: 0.8rem;
+  color: #a3a3a3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.cp-progress-container {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cp-progress-fill {
+  height: 100%;
+  background: #1DB954;
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+.cp-icon-idle {
+  color: #525252;
+}
+
+.cp-text {
+  font-size: 0.9rem;
+  color: #a3a3a3;
+  font-style: italic;
+}
+
+/* Skeleton loader */
+.cp-pulse {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* ========== Spotify Layout (Responsive) ========== */
+.spotify-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.spotify-left {
+  flex: 1;
+}
+
+.spotify-right {
+  flex: 1.5;
+  /* 給 Top Tracks 稍微多一點空間 */
+  display: flex;
+  flex-direction: column;
+}
+
+.spotify-top-tracks {
+  background: rgba(15, 15, 15, 0.3);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (min-width: 768px) {
+  .spotify-layout {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .spotify-top-tracks {
+    height: 100%;
+  }
+
+  /* 在並排情況下，Currently Playing 的內容改為垂直排列並放大黑膠 */
+  .currently-playing {
+    flex-direction: column;
+    align-items: flex-start;
+    /* 靠左對齊 */
+    text-align: left;
+    /* 靠左對齊 */
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+    height: 100%;
+  }
+
+  .currently-playing .cp-album-art {
+    width: 100%;
+    max-width: 260px;
+    /* 限制一個舒適的大小 */
+    aspect-ratio: 1 / 1;
+    height: auto;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    align-self: center;
+    /* 讓圖片自己置中，或是你想整張卡片左對齊也可以拿掉這個 */
+  }
+
+  .currently-playing .cp-overlay-cd {
+    width: 16px;
+    height: 16px;
+  }
+
+  .currently-playing .cp-header {
+    justify-content: flex-start;
+    /* 標籤區塊靠左對齊 */
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .currently-playing .cp-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* 文字區塊靠左對齊 */
+  }
+
+  .currently-playing .cp-title {
+    white-space: normal;
+    text-align: left;
+    /* 文字靠左對齊 */
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    /* 字體動態放大 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 0.25rem;
+  }
+
+  .currently-playing .cp-artist {
+    white-space: normal;
+    text-align: left;
+    /* 文字靠左對齊 */
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    /* 字體動態放大 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

@@ -4,6 +4,7 @@ import TerminalText from '@/components/TerminalText';
 import SkillCard from '@/components/SkillCard';
 import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
+import CurrentlyPlaying from '@/components/CurrentlyPlaying';
 
 async function getAccessToken() {
   const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -57,6 +58,7 @@ async function getTopTracks() {
 
 export default async function Home() {
   const topTracks = await getTopTracks();
+  const token = await getAccessToken();
 
   return (
     <>
@@ -131,36 +133,47 @@ export default async function Home() {
           <section id="spotify" className="section">
             <h2>Spotify</h2>
 
-            {/* 若成功抓取 Top Tracks 則顯示 */}
-            {topTracks && topTracks.length > 0 && (
-              <div className="spotify-top-tracks">
-                <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>My Top Tracks</h3>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  {topTracks.map((track, index) => (
-                    <li key={track.id} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
-                      <span style={{ color: '#888', fontWeight: 'bold', width: '20px', textAlign: 'right' }}>{index + 1}.</span>
-                      {track.album?.images?.[2]?.url && (
-                        <img
-                          src={track.album.images[2].url}
-                          alt={track.album.name}
-                          style={{ width: '40px', height: '40px', borderRadius: '4px' }}
-                        />
-                      )}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          <a href={track.external_urls?.spotify} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            {track.name}
-                          </a>
-                        </div>
-                        <div style={{ fontSize: '0.85em', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {track.artists.map(artist => artist.name).join(', ')}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+            <div className="spotify-layout">
+              {/* 左側 / 上方：當前播放 (Currently Playing) */}
+              <div className="spotify-left">
+                {/* 客戶端元件：動態顯示當前播放歌曲，傳入 Token 供前端輪詢 */}
+                <CurrentlyPlaying initialToken={token} />
               </div>
-            )}
+
+              {/* 右側 / 下方：Top Tracks */}
+              <div className="spotify-right">
+                {/* 若成功抓取 Top Tracks 則顯示 */}
+                {topTracks && topTracks.length > 0 && (
+                  <div className="spotify-top-tracks">
+                    <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: 'bold' }}>My Top Tracks</h3>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                      {topTracks.map((track, index) => (
+                        <li key={track.id} style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                          <span style={{ color: '#888', fontWeight: 'bold', width: '20px', textAlign: 'right' }}>{index + 1}.</span>
+                          {track.album?.images?.[2]?.url && (
+                            <img
+                              src={track.album.images[2].url}
+                              alt={track.album.name}
+                              style={{ width: '40px', height: '40px', borderRadius: '4px' }}
+                            />
+                          )}
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              <a href={track.external_urls?.spotify} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                {track.name}
+                              </a>
+                            </div>
+                            <div style={{ fontSize: '0.85em', color: '#888', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                              {track.artists.map(artist => artist.name).join(', ')}
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <iframe
               data-testid="embed-iframe"
