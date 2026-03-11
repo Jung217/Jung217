@@ -2,38 +2,58 @@
 
 import { useState, useEffect } from 'react';
 
-export default function CurrentlyPlaying({ initialToken }) {
+// 從環境變數讀取 Spotify 憑證（NEXT_PUBLIC_ 前綴讓瀏覽器端可存取）
+const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN;
+const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
+const PLAYER_ENDPOINT = 'https://api.spotify.com/v1/me/player';
+
+// 每次輪詢前自動換一個新的 Access Token，徹底解決 1 小時過期問題
+async function getAccessToken() {
+    const basic = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
+    const response = await fetch(TOKEN_ENDPOINT, {
+        method: 'POST',
+        headers: {
+            Authorization: `Basic ${basic}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: REFRESH_TOKEN,
+        }),
+    });
+    const data = await response.json();
+    return data.access_token;
+}
+
+export default function CurrentlyPlaying() {
     const [songInfo, setSongInfo] = useState(null);
-    const [rawData, setRawData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const fetchCurrentlyPlaying = async () => {
-        if (!initialToken) {
+        if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
             setLoading(false);
             return;
         }
 
         try {
-            const response = await fetch('https://api.spotify.com/v1/me/player', {
+            // 每次都換新的 Access Token，不會過期
+            const access_token = await getAccessToken();
+
+            const response = await fetch(PLAYER_ENDPOINT, {
                 headers: {
-                    Authorization: `Bearer ${initialToken}`,
+                    Authorization: `Bearer ${access_token}`,
                 },
                 cache: 'no-store',
             });
 
-            if (response.status === 401) {
-                console.warn('Spotify access token expired, reloading page...');
-                window.location.reload();
-                return;
-            }
-
-            if (response.status === 204 || response.status > 400) {
+            if (response.status === 204 || response.status >= 400) {
                 setSongInfo(null);
                 return;
             }
 
             const data = await response.json();
-            setRawData(data);
 
             if (!data.is_playing) {
                 setSongInfo(null);
@@ -53,11 +73,11 @@ export default function CurrentlyPlaying({ initialToken }) {
                 artist: item.artists.map((_artist) => _artist.name).join(', '),
                 albumImageUrl: item.album.images[0]?.url,
                 songUrl: item.external_urls.spotify,
-                device: data.device.name
+                device: data.device?.name,
             });
 
         } catch (error) {
-            console.error('Failed to fetch currently playing song directly', error);
+            console.error('Failed to fetch currently playing song', error);
             setSongInfo(null);
         } finally {
             if (loading) setLoading(false);
@@ -65,16 +85,14 @@ export default function CurrentlyPlaying({ initialToken }) {
     };
 
     useEffect(() => {
-        // 初次載入
         fetchCurrentlyPlaying();
 
-        // 每 15 秒輪詢一次最新狀態
         const interval = setInterval(() => {
             fetchCurrentlyPlaying();
         }, 15000);
 
         return () => clearInterval(interval);
-    }, [initialToken]);
+    }, []);
 
     if (loading) {
         return (

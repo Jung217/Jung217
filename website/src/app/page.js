@@ -58,7 +58,6 @@ async function getTopTracks() {
 
 export default async function Home() {
   const topTracks = await getTopTracks();
-  const token = await getAccessToken();
 
   return (
     <>
@@ -133,7 +132,7 @@ export default async function Home() {
 
             <div className="spotify-layout">
               <div className="spotify-left">
-                <CurrentlyPlaying initialToken={token} />
+                <CurrentlyPlaying />
               </div>
 
               <div className="spotify-right">
