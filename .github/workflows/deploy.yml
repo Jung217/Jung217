@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main", "master"]
   workflow_dispatch:
+  schedule:
+    # 每 55 分鐘自動 rebuild，確保 Spotify Access Token（1小時有效）不過期
+    - cron: '*/55 * * * *'
 
 permissions:
   contents: read
