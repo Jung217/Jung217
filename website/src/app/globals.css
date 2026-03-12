@@ -2573,3 +2573,210 @@ a.gc-pr:hover {
     -webkit-box-orient: vertical;
   }
 }
+
+/* ============================================================
+   攝影入口選擇頁 — Photo Entry Cards
+   ============================================================ */
+
+/* 整體頁面容器（不用 .container 限寬，讓卡片全寬） */
+.photo-entry-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+}
+
+/* 頁首標題區 */
+.photo-entry-header {
+  padding: 2.5rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 兩卡片並排容器 */
+.photo-entry-wrapper {
+  display: flex;
+  flex: 1;
+  min-height: 70vh;
+}
+
+/* 單張入口卡片 */
+.photo-entry-card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  transition: flex 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Hover 時略微放大卡片比例 */
+.photo-entry-wrapper:has(.photo-entry-card:hover) .photo-entry-card:not(:hover) {
+  flex: 0.8;
+}
+
+.photo-entry-wrapper:has(.photo-entry-card:hover) .photo-entry-card:hover {
+  flex: 1.2;
+}
+
+/* ----- 卡片背景底色 ----- */
+/* Digital：冷藍紫 */
+.photo-entry-card-bg--digital {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 0;
+}
+
+/* Film：暖棕橙 */
+.photo-entry-card-bg--film {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a0a00 0%, #3d1c00 50%, #5c3317 100%);
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 0;
+}
+
+/* Film 顆粒感紋路疊層 */
+.photo-entry-card-bg-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+}
+
+/* ----- 卡片遮罩（底部向上漸暗） ----- */
+.photo-entry-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.photo-entry-card-overlay--digital {
+  background: linear-gradient(to top, rgba(10, 5, 40, 0.92) 0%, rgba(30, 20, 80, 0.3) 50%, transparent 100%);
+}
+
+.photo-entry-card-overlay--film {
+  background: linear-gradient(to top, rgba(20, 8, 0, 0.92) 0%, rgba(60, 25, 5, 0.3) 50%, transparent 100%);
+}
+
+/* Hover 遮罩略微變淡 */
+.photo-entry-card:hover .photo-entry-card-overlay {
+  opacity: 0.7;
+}
+
+/* 背景微縮放效果 */
+.photo-entry-card:hover .photo-entry-card-bg--digital,
+.photo-entry-card:hover .photo-entry-card-bg--film {
+  transform: scale(1.04);
+}
+
+/* ----- 卡片內容 ----- */
+.photo-entry-card-content {
+  position: relative;
+  z-index: 3;
+  padding: 2.5rem 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* 類型標籤（小膠囊） */
+.photo-entry-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: fit-content;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* 大標題 */
+.photo-entry-label {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #fff;
+  margin: 0.25rem 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* 副標（照片數量） */
+.photo-entry-meta {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* "Explore →" 按鈕文字（Hover 時滑出） */
+.photo-entry-cta {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.photo-entry-card:hover .photo-entry-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 分隔線（兩卡中間的細線） */
+.photo-entry-card--digital {
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ============================================================
+   RWD：手機版改為上下排列
+   ============================================================ */
+@media (max-width: 768px) {
+  .photo-entry-wrapper {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .photo-entry-card {
+    min-height: 45vh;
+    flex: unset !important;
+  }
+
+  .photo-entry-wrapper:has(.photo-entry-card:hover) .photo-entry-card:not(:hover) {
+    flex: unset;
+  }
+
+  .photo-entry-card--digital {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .photo-entry-card-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .photo-entry-label {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+}
