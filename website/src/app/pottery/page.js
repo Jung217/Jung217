@@ -23,7 +23,7 @@ export default function PotteryPage() {
             <h1 className="hero-title" style={{ fontSize: '3rem', marginBottom: '1rem' }}>
                 My <span>Pottery</span>
             </h1>
-            <p className="hero-subtitle" style={{ marginBottom: '4rem' }}>
+            <p className="text-secondary" style={{ marginBottom: '4rem' }}>
                 A collection of my handcrafted ceramic works.
             </p>
             <PotteryCarousel images={images} />

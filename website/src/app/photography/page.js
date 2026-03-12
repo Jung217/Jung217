@@ -30,7 +30,7 @@ export default function PhotographyPage() {
                     My <span>Photography</span>
                 </h1>
                 <p className="text-secondary" style={{ marginTop: '0.5rem' }}>
-                    Choose a format to explore
+                    Collection of my photos.
                 </p>
             </div>
 
