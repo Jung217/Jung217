@@ -1,0 +1,4 @@
+camera:  Fujifilm Simple Ace 400
+brand: Fujifilm
+film: Fujifilm Simple Ace 400
+keywords: Sapporo, Otaru, 2024, Hokkaido, Wakkanai

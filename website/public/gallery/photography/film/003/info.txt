@@ -1,0 +1,4 @@
+camera: Pentax 17
+brand: Pentax
+film: Kodak Gold 200
+keywords: 2024, Tokyo, Kamakura, Taoyuan

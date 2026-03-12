@@ -65,25 +65,84 @@ function generateData() {
         });
     });
 
-    // Photography - Film
+    // Photography - Film（全域捲號格式：film/001/ film/002/ ...）
     const filmBase = path.join(galleryDir, 'photography', 'film');
-    const filmBrands = getDirectories(filmBase);
-    filmBrands.forEach(brand => {
-        const brandPath = path.join(filmBase, brand);
-        const cameras = getDirectories(brandPath);
-        cameras.forEach(camera => {
-            const { images, text } = getImagesAndText(path.join(brandPath, camera), `/gallery/photography/film/${brand}/${camera}`);
-            data.photography.film.push({
-                id: `${brand}-${camera}`,
-                brand: brand.replace(/-/g, ' '),
-                camera: camera.replace(/-/g, ' '),
-                coverImage: images.length > 0 ? images[0] : null,
-                images,
-                description: text,
-                count: images.length
+    const rollDirs = getDirectories(filmBase);
+
+    /* 依資料夾名稱排序（字典序：001 < 002 < 003） */
+    rollDirs.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+
+    rollDirs.forEach((rollFolder, index) => {
+        const rollPath = path.join(filmBase, rollFolder);
+
+        /* 掃描圖片 */
+        const files = fs.readdirSync(rollPath);
+        const images = files
+            .filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+            .sort()
+            .map(file => `/gallery/photography/film/${rollFolder}/${file}`);
+
+        /* 解析 info.txt */
+        let camera = '';
+        let brand = '';
+        let filmStock = '';
+        let keywords = [];
+        let description = '';
+
+        const infoFile = files.find(file => file.toLowerCase() === 'info.txt');
+        if (infoFile) {
+            const raw = fs.readFileSync(path.join(rollPath, infoFile), 'utf-8');
+            const lines = raw.split('\n');
+            const bodyLines = [];
+            let inBody = false;
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+
+                /* 空行之後視為自由描述 */
+                if (!inBody && trimmed === '') {
+                    inBody = true;
+                    return;
+                }
+                if (inBody) {
+                    bodyLines.push(line);
+                    return;
+                }
+
+                /* 解析 key: value 欄位（不區分大小寫）*/
+                const match = trimmed.match(/^([^:]+):\s*(.*)$/);
+                if (match) {
+                    const key = match[1].toLowerCase().trim();
+                    const val = match[2].trim();
+                    if (key === 'camera') camera = val;
+                    else if (key === 'brand') brand = val;
+                    else if (key === 'film') filmStock = val;
+                    else if (key === 'keywords') {
+                        keywords = val.split(',').map(k => k.trim()).filter(Boolean);
+                    }
+                }
             });
+
+            description = bodyLines.join('\n').trim();
+        }
+
+        data.photography.film.push({
+            id: rollFolder,                          /* e.g. "001" */
+            rollNumber: index + 1,                   /* 顯示用序號 */
+            rollFolder,                              /* 原始資料夾名稱 */
+            camera,
+            brand,
+            filmStock,
+            keywords,
+            coverImage: images.length > 0 ? images[0] : null,
+            images,
+            description,
+            count: images.length
         });
     });
+
+    /* 已依資料夾順序排好，不再額外排序 */
+
 
     // Ensure data directory exists
     const dataDir = path.dirname(outputFile);

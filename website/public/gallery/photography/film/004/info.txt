@@ -1,0 +1,4 @@
+camera: Pentax 17
+brand: Pentax
+film: Agfa APX 100
+keywords: Kanazawa, 2025, Toyama, Amaharashi, Fuzhou, Kinmen

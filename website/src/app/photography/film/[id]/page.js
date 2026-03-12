@@ -10,13 +10,13 @@ export async function generateStaticParams() {
     const data = JSON.parse(raw);
 
     return data.photography.film.map((item) => ({
-        id: item.id, // e.g., 'kodak-leica-m6'
+        id: item.id, // e.g. "001"
     }));
 }
 
 export const dynamicParams = false;
 
-export default async function FilmPage({ params }) {
+export default async function FilmRollPage({ params }) {
     const resolvedParams = await params;
     const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
     const raw = fs.readFileSync(dataPath, 'utf8');
@@ -27,32 +27,72 @@ export default async function FilmPage({ params }) {
     if (!item) {
         return (
             <main className="container animate-fade-in" style={{ paddingTop: '100px' }}>
-                <h1>Collection Not Found</h1>
-                <Link href="/photography" className="back-link">← Back to Photography</Link>
+                <h1>Roll Not Found</h1>
+                <Link href="/photography/film" className="back-link">← Film Rolls</Link>
             </main>
         );
     }
 
     return (
         <main className="container animate-fade-in" style={{ paddingTop: '100px', paddingBottom: '4rem' }}>
-            <Link href="/photography" className="back-link">← Back to Photography</Link>
+            <Link href="/photography/film" className="back-link">← Film Rolls</Link>
 
             <div className="detail-header" style={{ marginTop: '2rem', marginBottom: '3rem' }}>
-                <p className="text-secondary" style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }}>{item.brand}</p>
-                <h1 className="hero-title" style={{ fontSize: '3rem', margin: 0 }}>
-                    {item.camera}
+                {/* 捲號標題 */}
+                <p className="text-secondary" style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    Roll #{item.rollNumber}
+                </p>
+
+                <h1 className="hero-title" style={{ fontSize: '3rem', margin: '0.25rem 0' }}>
+                    {item.camera || 'Untitled Roll'}
                 </h1>
+
+                {/* 底部詳細資訊列 */}
+                <div className="roll-meta-row">
+                    {item.brand && (
+                        <span className="roll-meta-item">
+                            <span className="roll-meta-label">Brand</span>
+                            {item.brand}
+                        </span>
+                    )}
+                    {item.filmStock && (
+                        <span className="roll-meta-item">
+                            <span className="roll-meta-label">Film</span>
+                            {item.filmStock}
+                        </span>
+                    )}
+                    <span className="roll-meta-item">
+                        <span className="roll-meta-label">Photos</span>
+                        {item.count}
+                    </span>
+                </div>
+
+                {/* 關鍵字標籤 */}
+                {item.keywords && item.keywords.length > 0 && (
+                    <div className="roll-keywords" style={{ marginTop: '1rem' }}>
+                        {item.keywords.map((kw) => (
+                            <span key={kw} className="roll-keyword-tag">{kw}</span>
+                        ))}
+                    </div>
+                )}
+
+                {/* 自由描述文字 */}
                 {item.description && (
-                    <p className="detail-description" style={{ marginTop: '1rem', whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
+                    <p className="detail-description" style={{ marginTop: '1.5rem', whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
                         {item.description}
                     </p>
                 )}
             </div>
 
+            {/* 照片網格 */}
             <div className="photo-grid">
                 {item.images.map((img, idx) => (
                     <div key={idx} className="photo-wrapper">
-                        <img src={img} alt={`${item.brand} ${item.camera} photo ${idx + 1}`} loading="lazy" />
+                        <img
+                            src={img}
+                            alt={`Roll #${item.rollNumber} — ${item.camera || ''} photo ${idx + 1}`}
+                            loading="lazy"
+                        />
                     </div>
                 ))}
             </div>

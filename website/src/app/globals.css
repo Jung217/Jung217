@@ -2780,3 +2780,132 @@ a.gc-pr:hover {
     font-size: clamp(2.5rem, 10vw, 4rem);
   }
 }
+
+/* ============================================================
+   底片捲號 & 關鍵字標籤 — Film Roll Tags
+   ============================================================ */
+
+/* 卡片上的捲號（#1, #2...） */
+.roll-number {
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 0.15em;
+}
+
+/* 底片型號副標 */
+.roll-film-stock {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  margin: 0.1rem 0;
+}
+
+/* 關鍵字標籤容器 */
+.roll-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+/* 單個關鍵字膠囊 */
+.roll-keyword-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* 詳情頁 meta 資訊列 */
+.roll-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.roll-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.roll-meta-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+/* ───────────────────────────────────────────────
+   底片照片網格（縮圖聯絡表風格）
+─────────────────────────────────────────────── */
+.photo-grid {
+  /* 瀑布流多欄排列，自動換算欄數 */
+  columns: 3 220px;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .photo-grid {
+    columns: 2 140px;
+    gap: 5px;
+  }
+}
+
+.photo-wrapper {
+  /* 避免圖片被分割到下一欄 */
+  break-inside: avoid;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  background: var(--bg-tertiary);
+}
+
+@media (max-width: 640px) {
+  .photo-wrapper {
+    margin-bottom: 5px;
+  }
+}
+
+.photo-wrapper img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  border-radius: 4px;
+}
+
+.photo-wrapper:hover img {
+  transform: scale(1.03);
+  opacity: 0.88;
+}
+
+/* Hover 時顯示放大提示圖示 */
+.photo-wrapper::after {
+  content: '⤢';
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.photo-wrapper:hover::after {
+  opacity: 1;
+}

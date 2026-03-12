@@ -22,12 +22,12 @@ export default function FilmPhotographyPage() {
             </Link>
 
             <h1 className="hero-title" style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                Film <span>Cameras</span>
+                Film <span>Rolls</span>
             </h1>
 
             <section className="photography-section">
                 {film.length === 0 ? (
-                    <p className="text-secondary">No film photography collections yet.</p>
+                    <p className="text-secondary">No film rolls yet.</p>
                 ) : (
                     <div className="gallery-grid">
                         {film.map((item) => (
@@ -44,14 +44,33 @@ export default function FilmPhotographyPage() {
                                 </div>
                                 <div className="card-image-wrapper">
                                     {item.coverImage ? (
-                                        <img src={item.coverImage} alt={item.camera} className="card-image" />
+                                        <img src={item.coverImage} alt={`Roll ${item.rollNumber}`} className="card-image" />
                                     ) : (
                                         <div className="card-placeholder">No Image</div>
                                     )}
                                 </div>
                                 <div className="card-content">
-                                    <h2>{item.brand} - {item.camera}</h2>
-                                    <p>{item.count} photos</p>
+                                    {/* 捲號 + 相機 */}
+                                    <h2>
+                                        <span className="roll-number">#{item.rollNumber}</span>
+                                        {item.camera ? ` ${item.camera}` : ' Untitled Roll'}
+                                    </h2>
+                                    {/* 底片型號 */}
+                                    {item.filmStock && (
+                                        <p className="roll-film-stock">{item.filmStock}</p>
+                                    )}
+                                    {/* 照片數量 */}
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                                        {item.count} photo{item.count !== 1 ? 's' : ''}
+                                    </p>
+                                    {/* 關鍵字標籤 */}
+                                    {item.keywords && item.keywords.length > 0 && (
+                                        <div className="roll-keywords">
+                                            {item.keywords.map((kw) => (
+                                                <span key={kw} className="roll-keyword-tag">{kw}</span>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </Link>
                         ))}

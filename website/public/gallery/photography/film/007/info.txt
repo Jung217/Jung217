@@ -1,0 +1,4 @@
+camera: Nikon ZOOM 500AF
+brand: Nikon
+film: Kodak Gold 200
+keywords: street, tokyo, summer
