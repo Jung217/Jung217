@@ -1,4 +1,4 @@
 camera: Pentax 17
 brand: Pentax
 film: Agfa APX 100
-keywords: Toyama, Fukuoka, Kumamoto, Okinawa	
+keywords: Toyama, Fukuoka, Kumamoto, Okinawa, 2025

@@ -1,7 +1,4 @@
-camera: Canon AE-1
-brand: Canon
-film: Kodak Ultramax 400
-keywords: street, tokyo, summer
-
-第一捲底片，在東京街頭隨拍。
-顆粒感很好看，色調也很喜歡。
+camera: Pentax 17
+brand: Pentax
+film: Fujifilm Speed 400
+keywords: Sentai, 2025
