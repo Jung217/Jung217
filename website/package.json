@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/generate-data.js",
+    "sync-flickr": "node scripts/sync-flickr.mjs",
+    "predev": "node scripts/generate-data.js && node scripts/sync-flickr.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/generate-data.js",
+    "prebuild": "node scripts/generate-data.js && node scripts/sync-flickr.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.1.6"
+    "eslint-config-next": "16.1.6",
+    "puppeteer": "^24.39.1"
   }
 }

@@ -1,6 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * generate-data.js
+ * 掃描本地 gallery 資料夾，產生 gallery-data.json。
+ *
+ * 注意：photography.digital 的資料由 sync-flickr.mjs 負責（從 Flickr API 抓取）。
+ * 若 gallery-data.json 已存在 Flickr 來源的 digital 資料，本腳本將保留不覆寫。
+ * 僅在沒有任何 digital 資料時，才 fallback 掃描本地資料夾。
+ */
+
 const galleryDir = path.join(process.cwd(), 'public', 'gallery');
 const outputFile = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
 
@@ -27,6 +36,16 @@ function getImagesAndText(folderPath, publicPrefix) {
 }
 
 function generateData() {
+    /* 讀取現有 JSON，保留 Film 與 Digital（Flickr）資料 */
+    let existingData = { pottery: [], photography: { digital: [], film: [] } };
+    if (fs.existsSync(outputFile)) {
+        try {
+            existingData = JSON.parse(fs.readFileSync(outputFile, 'utf-8'));
+        } catch (e) {
+            console.warn('⚠️  無法解析現有 gallery-data.json，將重新生成');
+        }
+    }
+
     const data = {
         pottery: [],
         photography: {
@@ -50,20 +69,30 @@ function generateData() {
         });
     });
 
-    // Photography - Digital
-    const digitalBase = path.join(galleryDir, 'photography', 'digital');
-    const digitalCameras = getDirectories(digitalBase);
-    digitalCameras.forEach(camera => {
-        const { images, text } = getImagesAndText(path.join(digitalBase, camera), `/gallery/photography/digital/${camera}`);
-        data.photography.digital.push({
-            id: camera,
-            name: camera.replace(/-/g, ' '),
-            coverImage: images.length > 0 ? images[0] : null,
-            images,
-            description: text,
-            count: images.length
+    /* ─── Photography - Digital ───
+     * 若現有資料中已有 Flickr 來源的 digital 資料，保留不覆寫。
+     * 僅在沒有任何 digital 資料時（初始狀態），才掃描本地資料夾作為 fallback。
+     */
+    const hasFlickrData = existingData.photography.digital.some(item => item.source === 'flickr');
+    if (hasFlickrData) {
+        console.log('📸 Digital 資料已有 Flickr 來源，保留現有資料（如需更新請執行 npm run sync-flickr）');
+        data.photography.digital = existingData.photography.digital;
+    } else {
+        console.log('📸 未偵測到 Flickr 資料，掃描本地資料夾作為 fallback...');
+        const digitalBase = path.join(galleryDir, 'photography', 'digital');
+        const digitalCameras = getDirectories(digitalBase);
+        digitalCameras.forEach(camera => {
+            const { images, text } = getImagesAndText(path.join(digitalBase, camera), `/gallery/photography/digital/${camera}`);
+            data.photography.digital.push({
+                id: camera,
+                name: camera.replace(/-/g, ' '),
+                coverImage: images.length > 0 ? images[0] : null,
+                images,
+                description: text,
+                count: images.length
+            });
         });
-    });
+    }
 
     // Photography - Film（全域捲號格式：film/001/ film/002/ ...）
     const filmBase = path.join(galleryDir, 'photography', 'film');

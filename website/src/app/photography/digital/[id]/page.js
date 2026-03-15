@@ -46,6 +46,36 @@ export default async function DigitalPage({ params }) {
                         {item.description}
                     </p>
                 )}
+                {/* Flickr 原始相簿連結 */}
+                {item.flickrAlbumUrl && (
+                    <a
+                        href={item.flickrAlbumUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.4rem',
+                            marginTop: '1rem',
+                            padding: '0.4rem 1rem',
+                            borderRadius: '2rem',
+                            background: 'rgba(255,0,132,0.1)',
+                            color: '#ff0084',
+                            fontSize: '0.85rem',
+                            fontWeight: '500',
+                            textDecoration: 'none',
+                            border: '1px solid rgba(255,0,132,0.3)',
+                            transition: 'background 0.2s',
+                        }}
+                    >
+                        {/* Flickr 圖示 */}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="7" cy="12" r="5"/>
+                            <circle cx="17" cy="12" r="5" fill="#0063dc"/>
+                        </svg>
+                        在 Flickr 上查看
+                    </a>
+                )}
             </div>
 
             <div className="photo-grid">
