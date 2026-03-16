@@ -1,12 +1,38 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const PLACEHOLDER_HEIGHT = '200px';
 const PRELOAD_MARGIN = '600px';
+const DESKTOP_COLUMNS = 3;
+const MOBILE_COLUMNS = 2;
+const MOBILE_BREAKPOINT = 640;
+
+function distributeToColumns(images, columnCount) {
+    const columns = Array.from({ length: columnCount }, () => []);
+    images.forEach((img, i) => columns[i % columnCount].push({ src: img, index: i }));
+    return columns;
+}
+
+function useColumnCount() {
+    const [count, setCount] = useState(DESKTOP_COLUMNS);
+
+    useEffect(() => {
+        const update = () => {
+            setCount(window.innerWidth <= MOBILE_BREAKPOINT ? MOBILE_COLUMNS : DESKTOP_COLUMNS);
+        };
+        update();
+        window.addEventListener('resize', update);
+        return () => window.removeEventListener('resize', update);
+    }, []);
+
+    return count;
+}
 
 export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
     const gridRef = useRef(null);
+    const columnCount = useColumnCount();
+    const columns = distributeToColumns(images, columnCount);
 
     useEffect(() => {
         const grid = gridRef.current;
@@ -37,21 +63,25 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
 
         lazyWrappers.forEach((w) => observer.observe(w));
         return () => observer.disconnect();
-    }, [images]);
+    }, [images, columnCount]);
 
     return (
         <div className="photo-grid" ref={gridRef}>
-            {images.map((img, idx) => (
-                <div
-                    key={idx}
-                    className="photo-wrapper"
-                    data-lazy=""
-                    style={{ minHeight: PLACEHOLDER_HEIGHT }}
-                >
-                    <img
-                        data-src={img}
-                        alt={`${altPrefix} ${idx + 1}`}
-                    />
+            {columns.map((col, colIdx) => (
+                <div key={colIdx} className="photo-grid-column">
+                    {col.map(({ src, index }) => (
+                        <div
+                            key={index}
+                            className="photo-wrapper"
+                            data-lazy=""
+                            style={{ minHeight: PLACEHOLDER_HEIGHT }}
+                        >
+                            <img
+                                data-src={src}
+                                alt={`${altPrefix} ${index + 1}`}
+                            />
+                        </div>
+                    ))}
                 </div>
             ))}
         </div>
