@@ -9,6 +9,15 @@ const DESKTOP_COLUMNS = 3;
 const MOBILE_COLUMNS = 2;
 const MOBILE_BREAKPOINT = 640;
 
+function shuffle(arr) {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 function distributeToColumns(images, columnCount) {
     const columns = Array.from({ length: columnCount }, () => []);
     images.forEach((img, i) => columns[i % columnCount].push({ src: img, index: i }));
@@ -30,11 +39,17 @@ function useColumnCount() {
     return count;
 }
 
-export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
+export default function InfinitePhotoGrid({ images, altPrefix = 'photo', randomize = false }) {
     const gridRef = useRef(null);
     const columnCount = useColumnCount();
-    const columns = distributeToColumns(images, columnCount);
+    const [displayImages, setDisplayImages] = useState(images);
     const [lightboxSrc, setLightboxSrc] = useState(null);
+
+    useEffect(() => {
+        if (randomize) setDisplayImages(shuffle(images));
+    }, [images, randomize]);
+
+    const columns = distributeToColumns(displayImages, columnCount);
 
     useEffect(() => {
         const onKey = (e) => {

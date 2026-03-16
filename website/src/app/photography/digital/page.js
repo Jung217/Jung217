@@ -32,6 +32,7 @@ export default function DigitalPhotographyPage() {
                 <InfinitePhotoGrid
                     images={allImages}
                     altPrefix="Digital Photography"
+                    randomize
                 />
             )}
         </main>
