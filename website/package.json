@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "sync-flickr": "node scripts/sync-flickr.mjs",
-    "predev": "node scripts/generate-data.js && node scripts/sync-flickr.mjs",
+    "predev": "node scripts/generate-data.js",
     "dev": "next dev",
-    "prebuild": "node scripts/generate-data.js && node scripts/sync-flickr.mjs",
+    "prebuild": "node scripts/generate-data.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

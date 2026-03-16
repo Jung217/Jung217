@@ -43,6 +43,7 @@ next-env.d.ts
 skills-lock.json
 .agent
 .agents
+.claude
 # 忽略大型 ZIP 封存檔（超過 GitHub 100MB 限制）
 *.zip
 
