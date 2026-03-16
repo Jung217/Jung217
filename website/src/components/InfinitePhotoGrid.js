@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const PLACEHOLDER_HEIGHT = '200px';
 const PRELOAD_MARGIN = '600px';
@@ -33,6 +34,15 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
     const gridRef = useRef(null);
     const columnCount = useColumnCount();
     const columns = distributeToColumns(images, columnCount);
+    const [lightboxSrc, setLightboxSrc] = useState(null);
+
+    useEffect(() => {
+        const onKey = (e) => {
+            if (e.key === 'Escape') setLightboxSrc(null);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, []);
 
     useEffect(() => {
         const grid = gridRef.current;
@@ -66,24 +76,40 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
     }, [images, columnCount]);
 
     return (
-        <div className="photo-grid" ref={gridRef}>
-            {columns.map((col, colIdx) => (
-                <div key={colIdx} className="photo-grid-column">
-                    {col.map(({ src, index }) => (
-                        <div
-                            key={index}
-                            className="photo-wrapper"
-                            data-lazy=""
-                            style={{ minHeight: PLACEHOLDER_HEIGHT }}
-                        >
-                            <img
-                                data-src={src}
-                                alt={`${altPrefix} ${index + 1}`}
-                            />
-                        </div>
-                    ))}
-                </div>
-            ))}
-        </div>
+        <>
+            {lightboxSrc && createPortal(
+                <div className="pc-lightbox" onClick={() => setLightboxSrc(null)}>
+                    <img
+                        src={lightboxSrc}
+                        alt="Photo large view"
+                        className="pc-lightbox-img"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <button className="pc-lightbox-close" onClick={() => setLightboxSrc(null)}>✕</button>
+                </div>,
+                document.body
+            )}
+
+            <div className="photo-grid" ref={gridRef}>
+                {columns.map((col, colIdx) => (
+                    <div key={colIdx} className="photo-grid-column">
+                        {col.map(({ src, index }) => (
+                            <div
+                                key={index}
+                                className="photo-wrapper"
+                                data-lazy=""
+                                style={{ minHeight: PLACEHOLDER_HEIGHT }}
+                                onClick={() => setLightboxSrc(src)}
+                            >
+                                <img
+                                    data-src={src}
+                                    alt={`${altPrefix} ${index + 1}`}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }

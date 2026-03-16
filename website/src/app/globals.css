@@ -1889,6 +1889,7 @@ a.gc-pr:hover {
 }
 
 .po-card {
+  position: relative;
   break-inside: avoid;
   margin-bottom: 2rem;
   cursor: pointer;
@@ -1933,7 +1934,25 @@ a.gc-pr:hover {
 }
 
 .po-card:hover .po-img {
-  transform: scale(1.06);
+  transform: scale(1.03);
+  opacity: 0.88;
+}
+
+.po-card::after {
+  content: '⤢';
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.po-card:hover::after {
+  opacity: 1;
 }
 
 @media (max-width: 1023px) {
