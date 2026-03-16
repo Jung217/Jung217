@@ -2,24 +2,22 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+const SCROLL_HIDE_THRESHOLD = 80;
+// 必須與 CSS transition 持續時間一致
+const MENU_CLOSE_DELAY_MS = 300;
+
 export default function NavBar() {
-    // 控制漢堡選單開關
     const [menuOpen, setMenuOpen] = useState(false);
-    // 控制導覽列顯示/隱藏
     const [navHidden, setNavHidden] = useState(false);
     const lastScrollY = useRef(0);
 
-    // 滾動監聽：向下滾動隱藏，向上滾動顯示
     useEffect(() => {
         const handleScroll = () => {
             const currentY = window.scrollY;
-            if (currentY > lastScrollY.current && currentY > 80) {
-                // 向下滾動超過 80px 才隱藏
+            if (currentY > lastScrollY.current && currentY > SCROLL_HIDE_THRESHOLD) {
                 setNavHidden(true);
-                // 隱藏導覽列時同時關閉手機選單
                 setMenuOpen(false);
             } else {
-                // 向上滾動立即顯示
                 setNavHidden(false);
             }
             lastScrollY.current = currentY;
@@ -29,7 +27,6 @@ export default function NavBar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // 開啟選單時防止背景捲動
     useEffect(() => {
         if (menuOpen) {
             document.body.style.overflow = 'hidden';
@@ -41,12 +38,10 @@ export default function NavBar() {
         };
     }, [menuOpen]);
 
-    // 點擊選單連結：先關閉選單，待動畫結束後再跳轉，避免卡頓
     const handleLinkClick = (e, href) => {
         e.preventDefault();
         setMenuOpen(false);
-        // 等待選單淡出動畫完成後再跳轉（300ms 剛好對應 CSS transition）
-        setTimeout(() => { window.location.href = href; }, 300);
+        setTimeout(() => { window.location.href = href; }, MENU_CLOSE_DELAY_MS);
     };
 
     return (
@@ -77,7 +72,6 @@ export default function NavBar() {
 
             {/* 手機版全螢幕選單 */}
             <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                {/* 點選項目後關閉選單再跳轉（避免動畫卡頓） */}
                 <a href="/" onClick={(e) => handleLinkClick(e, '/')}>Home</a>
                 <a href="/pottery" onClick={(e) => handleLinkClick(e, '/pottery')}>Pottery</a>
                 <a href="/photography" onClick={(e) => handleLinkClick(e, '/photography')}>Photography</a>

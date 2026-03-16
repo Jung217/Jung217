@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function TerminalText({ text, typingSpeed = 50 }) {
+const START_DELAY_MS = 500;
+const DEFAULT_TYPING_SPEED = 50;
+
+export default function TerminalText({ text, typingSpeed = DEFAULT_TYPING_SPEED }) {
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(true);
 
@@ -22,7 +25,7 @@ export default function TerminalText({ text, typingSpeed = 50 }) {
                     clearInterval(typeWriter);
                 }
             }, typingSpeed);
-        }, 500);
+        }, START_DELAY_MS);
 
         return () => {
             clearTimeout(startDelay);

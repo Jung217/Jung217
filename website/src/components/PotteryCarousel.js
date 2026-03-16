@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-// 將圖片 round-robin 分配到 N 個欄位
 function splitIntoColumns(images, cols) {
     const columns = Array.from({ length: cols }, () => []);
     images.forEach((img, i) => columns[i % cols].push(img));
@@ -12,6 +11,7 @@ function splitIntoColumns(images, cols) {
 
 const COLUMN_COUNT = 3;
 const DIRECTIONS = ['up', 'down', 'up'];
+const SECONDS_PER_IMAGE = 4;
 
 export default function PotteryCarousel({ images = [] }) {
     const [selected, setSelected] = useState(null);
@@ -52,7 +52,7 @@ export default function PotteryCarousel({ images = [] }) {
             <div className="pc-scene">
                 {columns.map((colImages, colIdx) => {
                     const dir = DIRECTIONS[colIdx];
-                    const duration = colImages.length * 4;
+                    const duration = colImages.length * SECONDS_PER_IMAGE;
                     const looped = [...colImages, ...colImages];
                     return (
                         <div key={colIdx} className={`pc-column pc-column-${colIdx + 1}`}>

@@ -2,37 +2,56 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 
-// 從陣列中隨機取 n 張不重複的照片
+const PREVIEW_COUNT = 4;
+const GALLERY_DATA_PATH = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
+
 function pickRandom(images, n) {
-    if (!images || images.length === 0) return [];
+    if (!images?.length) return [];
     const shuffled = [...images].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, n);
 }
 
+function EntryCard({ href, previews, overlayClass, badge, label, meta, grain = false }) {
+    return (
+        <Link href={href} className={`photo-entry-card photo-entry-card--${badge.toLowerCase()}`}>
+            <div className="photo-entry-mosaic">
+                {previews.map((src, i) => (
+                    <img key={i} src={src} alt="" className="photo-entry-mosaic-img" />
+                ))}
+            </div>
+            {grain && <div className="photo-entry-card-bg-grain" />}
+            <div className={`photo-entry-card-overlay ${overlayClass}`} />
+            <div className="photo-entry-card-content">
+                <div className="photo-entry-badge">{badge}</div>
+                <h2 className="photo-entry-label">{label}</h2>
+                <p className="photo-entry-meta">{meta}</p>
+                <span className="photo-entry-cta">Explore →</span>
+            </div>
+        </Link>
+    );
+}
+
 export default function PhotographyPage() {
-    const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
-    let digital = [];
-    let film = [];
     let digitalTotal = 0;
     let filmTotal = 0;
+    let filmCount = 0;
     let digitalPreviews = [];
     let filmPreviews = [];
 
     try {
-        const raw = fs.readFileSync(dataPath, 'utf8');
+        const raw = fs.readFileSync(GALLERY_DATA_PATH, 'utf8');
         const data = JSON.parse(raw);
-        digital = data.photography.digital;
-        film = data.photography.film;
+        const { digital, film } = data.photography;
+
         digitalTotal = digital.reduce((sum, item) => sum + (item.count || 0), 0);
         filmTotal = film.reduce((sum, item) => sum + (item.count || 0), 0);
+        filmCount = film.length;
 
-        // Digital：從所有照片中隨機取 4 張
         const allDigitalImages = digital.flatMap((item) => item.images || []);
-        digitalPreviews = pickRandom(allDigitalImages, 4);
+        digitalPreviews = pickRandom(allDigitalImages, PREVIEW_COUNT);
 
-        // Film：從各卷封面中隨機取 4 張
         const filmCovers = film.map((item) => item.coverImage || item.images?.[0]).filter(Boolean);
-        filmPreviews = pickRandom(filmCovers, 4);
+        filmPreviews = pickRandom(filmCovers, PREVIEW_COUNT);
     } catch (e) {
         console.error(e);
     }
@@ -49,44 +68,23 @@ export default function PhotographyPage() {
             </div>
 
             <div className="photo-entry-wrapper">
-                {/* Digital 卡片 */}
-                <Link href="/photography/digital" className="photo-entry-card photo-entry-card--digital">
-                    <div className="photo-entry-mosaic">
-                        {digitalPreviews.map((src, i) => (
-                            <img key={i} src={src} alt="" className="photo-entry-mosaic-img" />
-                        ))}
-                    </div>
-                    <div className="photo-entry-card-overlay photo-entry-card-overlay--digital" />
-                    <div className="photo-entry-card-content">
-                        <div className="photo-entry-badge">Digital</div>
-                        <h2 className="photo-entry-label">Digital</h2>
-                        <p className="photo-entry-meta">
-                            {digitalTotal > 0 ? `${digitalTotal} photos` : 'Coming soon'}
-                        </p>
-                        <span className="photo-entry-cta">Explore →</span>
-                    </div>
-                </Link>
-
-                {/* Film 卡片 */}
-                <Link href="/photography/film" className="photo-entry-card photo-entry-card--film">
-                    <div className="photo-entry-mosaic">
-                        {filmPreviews.map((src, i) => (
-                            <img key={i} src={src} alt="" className="photo-entry-mosaic-img" />
-                        ))}
-                    </div>
-                    <div className="photo-entry-card-bg-grain" />
-                    <div className="photo-entry-card-overlay photo-entry-card-overlay--film" />
-                    <div className="photo-entry-card-content">
-                        <div className="photo-entry-badge">Film</div>
-                        <h2 className="photo-entry-label">Film</h2>
-                        <p className="photo-entry-meta">
-                            {film.length > 0
-                                ? `${film.length} rolls · ${filmTotal} photos`
-                                : 'Coming soon'}
-                        </p>
-                        <span className="photo-entry-cta">Explore →</span>
-                    </div>
-                </Link>
+                <EntryCard
+                    href="/photography/digital"
+                    previews={digitalPreviews}
+                    overlayClass="photo-entry-card-overlay--digital"
+                    badge="Digital"
+                    label="Digital"
+                    meta={digitalTotal > 0 ? `${digitalTotal} photos` : 'Coming soon'}
+                />
+                <EntryCard
+                    href="/photography/film"
+                    previews={filmPreviews}
+                    overlayClass="photo-entry-card-overlay--film"
+                    badge="Film"
+                    label="Film"
+                    meta={filmCount > 0 ? `${filmCount} rolls · ${filmTotal} photos` : 'Coming soon'}
+                    grain
+                />
             </div>
         </main>
     );

@@ -9,6 +9,14 @@ const SORT_OPTIONS = [
     { key: 'film', label: 'Film Stock' },
 ];
 
+const REPRESENTATIVE_PHOTO_INDEX = 16;
+const MAX_VISIBLE_KEYWORDS = 3;
+
+const SORT_KEY_TO_GROUP_FIELD = {
+    brand: (item) => item.brand || 'Unknown',
+    film: (item) => item.filmStock || 'Unknown',
+};
+
 function sortFilm(items, sortBy, rollAsc) {
     const sorted = [...items];
     switch (sortBy) {
@@ -24,17 +32,6 @@ function sortFilm(items, sortBy, rollAsc) {
     }
 }
 
-// 依照排序欄位將卡片分組
-function groupFilm(items, sortBy) {
-    if (sortBy === 'brand') {
-        return groupBy(items, (item) => item.brand || 'Unknown');
-    }
-    if (sortBy === 'film') {
-        return groupBy(items, (item) => item.filmStock || 'Unknown');
-    }
-    return null; // roll 模式不分組
-}
-
 function groupBy(items, keyFn) {
     const map = new Map();
     for (const item of items) {
@@ -45,7 +42,13 @@ function groupBy(items, keyFn) {
     return map;
 }
 
+function getCardCover(item) {
+    return item.images?.[REPRESENTATIVE_PHOTO_INDEX] || item.coverImage;
+}
+
 function FilmCard({ item }) {
+    const coverSrc = getCardCover(item);
+
     return (
         <Link
             href={`/photography/film/${item.id}`}
@@ -53,9 +56,9 @@ function FilmCard({ item }) {
         >
             <div className="film-card">
                 <div className="film-card-cover">
-                    {(item.images?.[16] || item.coverImage) && (
+                    {coverSrc && (
                         <img
-                            src={item.images?.[16] || item.coverImage}
+                            src={coverSrc}
                             alt={`Roll #${item.rollNumber}`}
                             className="film-card-cover-img"
                         />
@@ -71,9 +74,9 @@ function FilmCard({ item }) {
                         {item.filmStock && ' · '}
                         {item.count} photo{item.count !== 1 ? 's' : ''}
                     </p>
-                    {item.keywords && item.keywords.length > 0 && (
+                    {item.keywords?.length > 0 && (
                         <div className="film-card-keywords">
-                            {item.keywords.slice(0, 3).map((kw) => (
+                            {item.keywords.slice(0, MAX_VISIBLE_KEYWORDS).map((kw) => (
                                 <span key={kw} className="film-card-kw">{kw}</span>
                             ))}
                         </div>
@@ -87,6 +90,16 @@ function FilmCard({ item }) {
                 </div>
             </div>
         </Link>
+    );
+}
+
+function FilmGridSection({ items }) {
+    return (
+        <div className="film-grid">
+            {items.map((item) => (
+                <FilmCard key={item.id} item={item} />
+            ))}
+        </div>
     );
 }
 
@@ -104,11 +117,11 @@ export default function FilmRollGrid({ film }) {
     };
 
     const sorted = sortFilm(film, sortBy, rollAsc);
-    const groups = groupFilm(sorted, sortBy);
+    const groupKeyFn = SORT_KEY_TO_GROUP_FIELD[sortBy];
+    const groups = groupKeyFn ? groupBy(sorted, groupKeyFn) : null;
 
     return (
         <>
-            {/* 排序列 */}
             <div className="film-sort-bar">
                 <span className="film-sort-label">Sort by</span>
                 {SORT_OPTIONS.map((opt, i) => (
@@ -124,26 +137,14 @@ export default function FilmRollGrid({ film }) {
                 ))}
             </div>
 
-            {/* Roll 模式：平鋪網格 */}
-            {!groups && (
-                <div className="film-grid">
-                    {sorted.map((item) => (
-                        <FilmCard key={item.id} item={item} />
-                    ))}
-                </div>
-            )}
+            {!groups && <FilmGridSection items={sorted} />}
 
-            {/* Brand / Film 模式：分組顯示 */}
             {groups && (
                 <div className="film-groups">
                     {[...groups.entries()].map(([label, items]) => (
                         <div key={label} className="film-group">
                             <h3 className="film-group-title">{label}</h3>
-                            <div className="film-grid">
-                                {items.map((item) => (
-                                    <FilmCard key={item.id} item={item} />
-                                ))}
-                            </div>
+                            <FilmGridSection items={items} />
                         </div>
                     ))}
                 </div>

@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 
-// 從環境變數讀取 Spotify 憑證（NEXT_PUBLIC_ 前綴讓瀏覽器端可存取）
+const HTTP_NO_CONTENT = 204;
+const POLLING_INTERVAL_MS = 15000;
+
 const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 const REFRESH_TOKEN = process.env.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN;
 const TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
 const PLAYER_ENDPOINT = 'https://api.spotify.com/v1/me/player';
 
-// 每次輪詢前自動換一個新的 Access Token，徹底解決 1 小時過期問題
 async function getAccessToken() {
     const basic = btoa(`${CLIENT_ID}:${CLIENT_SECRET}`);
     const response = await fetch(TOKEN_ENDPOINT, {
@@ -38,7 +39,6 @@ export default function CurrentlyPlaying() {
         }
 
         try {
-            // 每次都換新的 Access Token，不會過期
             const access_token = await getAccessToken();
 
             const response = await fetch(PLAYER_ENDPOINT, {
@@ -48,7 +48,7 @@ export default function CurrentlyPlaying() {
                 cache: 'no-store',
             });
 
-            if (response.status === 204 || response.status >= 400) {
+            if (response.status === HTTP_NO_CONTENT || response.status >= 400) {
                 setSongInfo(null);
                 return;
             }
@@ -70,7 +70,7 @@ export default function CurrentlyPlaying() {
             setSongInfo({
                 isPlaying: true,
                 title: item.name,
-                artist: item.artists.map((_artist) => _artist.name).join(', '),
+                artist: item.artists.map((a) => a.name).join(', '),
                 albumImageUrl: item.album.images[0]?.url,
                 songUrl: item.external_urls.spotify,
                 device: data.device?.name,
@@ -89,7 +89,7 @@ export default function CurrentlyPlaying() {
 
         const interval = setInterval(() => {
             fetchCurrentlyPlaying();
-        }, 15000);
+        }, POLLING_INTERVAL_MS);
 
         return () => clearInterval(interval);
     }, []);

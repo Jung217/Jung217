@@ -1,14 +1,31 @@
-// GitHub Repo List 風格的技能展示卡片
+const SPARKLINE_WIDTH = 82;
+const SPARKLINE_HEIGHT = 28;
+const SPARKLINE_PADDING_TOP = 2;
+const SPARKLINE_PADDING_TOTAL = 6;
 
-// Sparkline SVG 元件：高點深綠 → 低點淡綠漸層
+const LANGUAGES = [
+    { lang: 'C', key: 'c', color: '#555555', pts: [1, 1, 2, 1, 3, 1, 2, 4, 1, 2, 3, 1, 4, 2] },
+    { lang: 'C#', key: 'csharp', color: '#178600', pts: [2, 3, 2, 4, 3, 5, 4, 3, 5, 4, 6, 5, 4, 5] },
+    { lang: 'Dart', key: 'dart', color: '#00B4AB', pts: [1, 1, 2, 2, 3, 2, 3, 4, 3, 5, 4, 5, 5, 6] },
+    { lang: 'HTML', key: 'html', color: '#e34c26', pts: [5, 6, 5, 7, 6, 5, 8, 6, 7, 6, 7, 8, 7, 6] },
+    { lang: 'Java', key: 'java', color: '#b07219', pts: [6, 5, 7, 5, 6, 4, 5, 4, 3, 4, 3, 2, 3, 2] },
+    { lang: 'JavaScript', key: 'javascript', color: '#f1e05a', pts: [3, 5, 4, 8, 6, 5, 9, 7, 8, 6, 9, 8, 7, 9] },
+    { lang: 'Jupyter Notebook', key: 'jupyter-notebook', color: '#DA5B0B', pts: [1, 1, 1, 5, 1, 1, 7, 1, 1, 6, 1, 1, 8, 1] },
+    { lang: 'Python', key: 'python', color: '#3572A5', pts: [4, 5, 6, 5, 7, 6, 7, 8, 7, 8, 9, 8, 9, 8] },
+    { lang: 'Scilab', key: 'scilab', color: '#a7a7a7', pts: [1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1] },
+    { lang: 'Shell', key: 'shell', color: '#89e051', pts: [1, 2, 1, 3, 2, 3, 4, 3, 4, 5, 4, 5, 6, 5] },
+    { lang: 'Swift', key: 'swift', color: '#F05138', pts: [2, 3, 2, 4, 3, 4, 5, 4, 5, 6, 5, 6, 7, 6] },
+    { lang: 'TypeScript', key: 'typescript', color: '#3178c6', pts: [2, 3, 4, 3, 5, 4, 6, 5, 7, 6, 8, 7, 8, 9] },
+];
+
 function Sparkline({ points, id }) {
-    const W = 82, H = 28;
+    const W = SPARKLINE_WIDTH, H = SPARKLINE_HEIGHT;
     const max = Math.max(...points);
     const min = Math.min(...points);
     const range = max - min || 1;
     const n = points.length;
     const xs = points.map((_, i) => (i / (n - 1)) * W);
-    const ys = points.map(v => H - 2 - ((v - min) / range) * (H - 6));
+    const ys = points.map(v => H - SPARKLINE_PADDING_TOP - ((v - min) / range) * (H - SPARKLINE_PADDING_TOTAL));
     const line = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
     const area = `0,${H} ${line} ${W},${H}`;
     const gradId = `spark-g-${id}`;
@@ -132,20 +149,7 @@ export default function SkillCard() {
                     {/* PR 列表內容 */}
                     <div className="gc-content">
                         <div className="gc-prs">
-                            {[
-                                { lang: 'C', key: 'c', color: '#555555', pts: [1, 1, 2, 1, 3, 1, 2, 4, 1, 2, 3, 1, 4, 2] },
-                                { lang: 'C#', key: 'csharp', color: '#178600', pts: [2, 3, 2, 4, 3, 5, 4, 3, 5, 4, 6, 5, 4, 5] },
-                                { lang: 'Dart', key: 'dart', color: '#00B4AB', pts: [1, 1, 2, 2, 3, 2, 3, 4, 3, 5, 4, 5, 5, 6] },
-                                { lang: 'HTML', key: 'html', color: '#e34c26', pts: [5, 6, 5, 7, 6, 5, 8, 6, 7, 6, 7, 8, 7, 6] },
-                                { lang: 'Java', key: 'java', color: '#b07219', pts: [6, 5, 7, 5, 6, 4, 5, 4, 3, 4, 3, 2, 3, 2] },
-                                { lang: 'JavaScript', key: 'javascript', color: '#f1e05a', pts: [3, 5, 4, 8, 6, 5, 9, 7, 8, 6, 9, 8, 7, 9] },
-                                { lang: 'Jupyter Notebook', key: 'jupyter-notebook', color: '#DA5B0B', pts: [1, 1, 1, 5, 1, 1, 7, 1, 1, 6, 1, 1, 8, 1] },
-                                { lang: 'Python', key: 'python', color: '#3572A5', pts: [4, 5, 6, 5, 7, 6, 7, 8, 7, 8, 9, 8, 9, 8] },
-                                { lang: 'Scilab', key: 'scilab', color: '#a7a7a7', pts: [1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1] },
-                                { lang: 'Shell', key: 'shell', color: '#89e051', pts: [1, 2, 1, 3, 2, 3, 4, 3, 4, 5, 4, 5, 6, 5] },
-                                { lang: 'Swift', key: 'swift', color: '#F05138', pts: [2, 3, 2, 4, 3, 4, 5, 4, 5, 6, 5, 6, 7, 6] },
-                                { lang: 'TypeScript', key: 'typescript', color: '#3178c6', pts: [2, 3, 4, 3, 5, 4, 6, 5, 7, 6, 8, 7, 8, 9] },
-                            ].map((item, i) => (
+                            {LANGUAGES.map((item, i) => (
                                 <a
                                     className="gc-repo-item"
                                     key={i}

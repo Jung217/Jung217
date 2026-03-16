@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from 'react';
 
-// 所有 DOM 一次渲染（layout 穩定不跳動），
-// 圖片只在滾到附近時才載入 src
+const PLACEHOLDER_HEIGHT = '200px';
+const PRELOAD_MARGIN = '600px';
+
 export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
     const gridRef = useRef(null);
 
@@ -11,32 +12,30 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
         const grid = gridRef.current;
         if (!grid) return;
 
-        // 監聽 photo-wrapper（有高度佔位），而非 img（高度為 0）
-        const wrappers = grid.querySelectorAll('.photo-wrapper[data-lazy]');
+        const lazyWrappers = grid.querySelectorAll('.photo-wrapper[data-lazy]');
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const wrapper = entry.target;
-                        const img = wrapper.querySelector('img');
-                        if (img) {
-                            img.src = img.dataset.src;
-                            img.removeAttribute('data-src');
-                            // 圖片載入完成後移除佔位高度
-                            img.onload = () => {
-                                wrapper.style.minHeight = '';
-                                wrapper.removeAttribute('data-lazy');
-                            };
-                        }
-                        observer.unobserve(wrapper);
+                    if (!entry.isIntersecting) return;
+
+                    const wrapper = entry.target;
+                    const img = wrapper.querySelector('img');
+                    if (img) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        img.onload = () => {
+                            wrapper.style.minHeight = '';
+                            wrapper.removeAttribute('data-lazy');
+                        };
                     }
+                    observer.unobserve(wrapper);
                 });
             },
-            { rootMargin: '600px' }
+            { rootMargin: PRELOAD_MARGIN }
         );
 
-        wrappers.forEach((w) => observer.observe(w));
+        lazyWrappers.forEach((w) => observer.observe(w));
         return () => observer.disconnect();
     }, [images]);
 
@@ -47,7 +46,7 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo' }) {
                     key={idx}
                     className="photo-wrapper"
                     data-lazy=""
-                    style={{ minHeight: '200px' }}
+                    style={{ minHeight: PLACEHOLDER_HEIGHT }}
                 >
                     <img
                         data-src={img}

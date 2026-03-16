@@ -1,60 +1,9 @@
-import Head from 'next/head';
-import Link from 'next/link';
 import TerminalText from '@/components/TerminalText';
 import SkillCard from '@/components/SkillCard';
 import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
 import CurrentlyPlaying from '@/components/CurrentlyPlaying';
-
-async function getAccessToken() {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
-
-  if (!client_id || !client_secret || !refresh_token) return null;
-
-  const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
-  const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
-
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token,
-    }),
-    next: { revalidate: 3600 }
-  });
-
-  const data = await response.json();
-  return data.access_token;
-}
-
-async function fetchWebApi(endpoint, method, body) {
-  const token = await getAccessToken();
-  if (!token) return null;
-  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    method,
-    body: body ? JSON.stringify(body) : undefined,
-    next: { revalidate: 3600 }
-  });
-  if (!res.ok) {
-    console.error("Spotify API Error:", res.statusText);
-    return null;
-  }
-  return await res.json();
-}
-
-async function getTopTracks() {
-  const data = await fetchWebApi('v1/me/top/tracks?time_range=short_term&limit=5', 'GET');
-  return data?.items || [];
-}
+import { getTopTracks } from '@/lib/spotify';
 
 export default async function Home() {
   const topTracks = await getTopTracks();
@@ -188,7 +137,7 @@ export default async function Home() {
           <section id="contact" className="section">
             <h2>Contact Me</h2>
             <div className="contact-info">
-              <div style={{ marginTop: '0px' }}>
+              <div>
                 <ContactPrinter />
               </div>
             </div>
