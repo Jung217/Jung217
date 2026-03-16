@@ -39,21 +39,15 @@ export default async function FilmRollPage({ params }) {
             <Link href="/photography/film" className="back-link">← Film Rolls</Link>
 
             <div className="detail-header" style={{ marginTop: '2rem', marginBottom: '3rem' }}>
-                {/* 捲號標題 */}
-                <p className="text-secondary" style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    Roll #{item.rollNumber}
-                </p>
-
                 <h1 className="hero-title" style={{ fontSize: '3rem', margin: '0.25rem 0' }}>
-                    {item.camera || 'Untitled Roll'}
+                    Roll <span>#{item.rollNumber}</span>
                 </h1>
 
-                {/* 底部詳細資訊列 */}
                 <div className="roll-meta-row">
-                    {item.brand && (
+                    {item.camera && (
                         <span className="roll-meta-item">
-                            <span className="roll-meta-label">Brand</span>
-                            {item.brand}
+                            <span className="roll-meta-label">Camera</span>
+                            {item.camera}
                         </span>
                     )}
                     {item.filmStock && (
@@ -68,10 +62,9 @@ export default async function FilmRollPage({ params }) {
                     </span>
                 </div>
 
-                {/* 關鍵字標籤 */}
                 {item.keywords && item.keywords.length > 0 && (
                     <div className="roll-keywords" style={{ marginTop: '1rem' }}>
-                        {item.keywords.map((kw) => (
+                        {[...item.keywords].sort((a, b) => a.localeCompare(b)).map((kw) => (
                             <span key={kw} className="roll-keyword-tag">{kw}</span>
                         ))}
                     </div>

@@ -291,20 +291,19 @@ h6 {
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
   margin-bottom: 2rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 50px;
-  background: var(--surface);
-  box-shadow: var(--neu-shadow-outer);
-  transition: all 0.3s ease;
+  padding: 0;
+  background: none;
+  transition: color 0.2s ease, gap 0.2s ease;
 }
 
 .back-link:hover {
-  box-shadow: var(--neu-shadow-inner);
   color: var(--accent);
+  gap: 0.6rem;
 }
 
 .photography-section {
