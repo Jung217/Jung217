@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
+import InfinitePhotoGrid from '@/components/InfinitePhotoGrid';
 
 export async function generateStaticParams() {
     const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
@@ -85,17 +86,10 @@ export default async function FilmRollPage({ params }) {
             </div>
 
             {/* 照片網格 */}
-            <div className="photo-grid">
-                {item.images.map((img, idx) => (
-                    <div key={idx} className="photo-wrapper">
-                        <img
-                            src={img}
-                            alt={`Roll #${item.rollNumber} — ${item.camera || ''} photo ${idx + 1}`}
-                            loading="lazy"
-                        />
-                    </div>
-                ))}
-            </div>
+            <InfinitePhotoGrid
+                images={item.images}
+                altPrefix={`Roll #${item.rollNumber} — ${item.camera || ''}`}
+            />
         </main>
     );
 }
