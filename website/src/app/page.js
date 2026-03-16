@@ -122,7 +122,7 @@ export default async function Home() {
 
             <iframe
               data-testid="embed-iframe"
-              style={{ borderRadius: '12px', marginBottom: '2rem' }}
+              style={{ borderRadius: '0', marginBottom: '2rem', display: 'block' }}
               src="https://open.spotify.com/embed/artist/2AfmfGFbe0A0WsTYm0SDTx?utm_source=generator&theme=0"
               width="100%"
               height="352"
