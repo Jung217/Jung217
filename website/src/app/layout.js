@@ -1,5 +1,6 @@
 import "./globals.css";
 import NavBar from "@/components/NavBar";
+import IdleScreen from "@/components/IdleScreen";
 
 export const metadata = {
   title: "CJ Chien | Photographer & Programmer",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
         {/* 導覽列：包含漢堡選單與滾動隱藏功能 */}
         <NavBar />
         {children}
+        <IdleScreen />
       </body>
     </html>
   );
