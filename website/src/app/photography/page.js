@@ -16,7 +16,7 @@ function EntryCard({ href, previews, overlayClass, badge, label, meta, grain = f
         <Link href={href} className={`photo-entry-card photo-entry-card--${badge.toLowerCase()}`}>
             <div className="photo-entry-mosaic">
                 {previews.map((src, i) => (
-                    <img key={i} src={src} alt="" className="photo-entry-mosaic-img" />
+                    <img key={i} src={src} alt="" className="photo-entry-mosaic-img" loading="lazy" decoding="async" />
                 ))}
             </div>
             {grain && <div className="photo-entry-card-bg-grain" />}

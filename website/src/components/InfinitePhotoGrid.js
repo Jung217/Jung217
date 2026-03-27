@@ -8,6 +8,9 @@ const PRELOAD_MARGIN = '600px';
 const DESKTOP_COLUMNS = 3;
 const MOBILE_COLUMNS = 2;
 const MOBILE_BREAKPOINT = 640;
+// 透明 1x1 像素，確保 img 元素在手機瀏覽器上正確初始化
+const PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const MAX_RETRY = 2;
 
 function shuffle(arr) {
     const shuffled = [...arr];
@@ -72,13 +75,22 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo', randomi
 
                     const wrapper = entry.target;
                     const img = wrapper.querySelector('img');
-                    if (img) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
+                    if (img && img.dataset.src) {
+                        const realSrc = img.dataset.src;
                         img.onload = () => {
                             wrapper.style.minHeight = '';
                             wrapper.removeAttribute('data-lazy');
                         };
+                        // 載入失敗時自動重試
+                        let retries = 0;
+                        img.onerror = () => {
+                            if (retries < MAX_RETRY) {
+                                retries++;
+                                setTimeout(() => { img.src = realSrc; }, 1500 * retries);
+                            }
+                        };
+                        img.src = realSrc;
+                        img.removeAttribute('data-src');
                     }
                     observer.unobserve(wrapper);
                 });
@@ -88,7 +100,7 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo', randomi
 
         lazyWrappers.forEach((w) => observer.observe(w));
         return () => observer.disconnect();
-    }, [images, columnCount]);
+    }, [displayImages, columnCount]);
 
     return (
         <>
@@ -117,8 +129,11 @@ export default function InfinitePhotoGrid({ images, altPrefix = 'photo', randomi
                                 onClick={() => setLightboxSrc(src)}
                             >
                                 <img
+                                    src={PLACEHOLDER_SRC}
                                     data-src={src}
                                     alt={`${altPrefix} ${index + 1}`}
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                         ))}

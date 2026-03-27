@@ -61,6 +61,8 @@ function FilmCard({ item }) {
                             src={coverSrc}
                             alt={`Roll #${item.rollNumber}`}
                             className="film-card-cover-img"
+                            loading="lazy"
+                            decoding="async"
                         />
                     )}
                 </div>
