@@ -3,10 +3,7 @@ name: Deploy Next.js site to Pages
 on:
   push:
     branches: ["main", "master"]
-  workflow_dispatch:
-  schedule:
-    # 每 55 分鐘自動 rebuild，確保 Spotify Access Token（1小時有效）不過期
-    - cron: '*/55 * * * *'
+  workflow_dispatch: # 保留手動觸發功能，方便除錯
 
 permissions:
   contents: read
