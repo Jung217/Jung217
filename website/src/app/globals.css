@@ -78,6 +78,26 @@ h6 {
   padding: 0 2rem;
 }
 
+/* 程式碼漂流效果 */
+.main-with-drift {
+  position: relative;
+  overflow: visible;
+}
+
+.code-drift-canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.main-with-drift > .section {
+  position: relative;
+  z-index: 1;
+}
+
 .text-secondary {
   color: var(--text-secondary);
 }

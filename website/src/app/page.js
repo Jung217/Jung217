@@ -3,6 +3,7 @@ import SkillCard from '@/components/SkillCard';
 import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
 import CurrentlyPlaying from '@/components/CurrentlyPlaying';
+import CodeDrift from '@/components/CodeDrift';
 import { getTopTracks } from '@/lib/spotify';
 
 export default async function Home() {
@@ -22,7 +23,8 @@ export default async function Home() {
           </div>
         </section>
 
-        <main className="container">
+        <main className="container main-with-drift">
+          <CodeDrift />
 
           <section id="about" className="section">
             <h2>About me</h2>
