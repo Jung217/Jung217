@@ -37,9 +37,9 @@ const CONFIG = {
     mouseRadius: 150,
   },
   mobile: {
-    density: 12 / (800 * 800),  // 降低密度
-    minCount: 15,
-    maxCount: 60,
+    density: 40 / (800 * 800),  // 再次提高密度
+    minCount: 100,
+    maxCount: 220,
     fontRange: [8, 18],         // 縮小字體
     glow: false,                // 關閉 shadowBlur
     connections: false,         // 關閉連線
