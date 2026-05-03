@@ -2,7 +2,7 @@ name: GitHub-Profile-3D-Contrib-simplify
 
 on:
   schedule: # 00:00 TW (UTC+8) == 16:00 UTC
-    - cron: "0 16 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
 
 jobs:
