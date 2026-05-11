@@ -3505,3 +3505,319 @@ a.gc-pr:hover {
     letter-spacing: 0.3em;
   }
 }
+
+/* ==================== Timeline ==================== */
+
+.tl-section {
+  margin-bottom: 3rem;
+}
+
+.tl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.tl-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.tl-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tl-tree {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tl-trunk {
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent) 0%, var(--border-color) 100%);
+  transform: translateX(-50%);
+}
+
+/* 年份刻度 */
+.tl-year-tick {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.tl-year-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  line-height: 1;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.tl-year-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* 區間延伸線 */
+.tl-range-line {
+  position: absolute;
+  border-left: 1px solid var(--accent);
+  z-index: 1;
+}
+
+.tl-range-line.tl-left {
+  left: calc(50% - 3.6rem);
+}
+
+.tl-range-line.tl-right {
+  left: calc(50% + 3.6rem - 1px);
+}
+
+.tl-range-cap {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--bg-primary);
+}
+
+.tl-node-dot {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 2px var(--bg-primary);
+}
+
+.tl-left .tl-node-dot {
+  right: calc(3.6rem - 4.5px);
+}
+
+.tl-right .tl-node-dot {
+  left: calc(3.6rem - 4.5px);
+}
+
+/* 節點 */
+.tl-node {
+  position: absolute;
+  width: 50%;
+  transform: translateY(-50%);
+}
+
+.tl-node.tl-left {
+  left: 0;
+  padding-right: 4.4rem;
+  text-align: right;
+}
+
+.tl-node.tl-right {
+  left: 50%;
+  padding-left: 4.4rem;
+}
+
+.tl-connector {
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: var(--accent);
+  z-index: 2;
+}
+
+.tl-left .tl-connector {
+  right: 0;
+  width: 3.6rem;
+}
+
+.tl-right .tl-connector {
+  left: 0;
+  width: 3.6rem;
+}
+
+.tl-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tl-left .tl-branch {
+  align-items: flex-end;
+}
+
+.tl-right .tl-branch {
+  align-items: flex-start;
+}
+
+.tl-date {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.tl-title {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.tl-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  white-space: pre-wrap;
+}
+
+.tl-node:hover .tl-desc {
+  max-height: 80px;
+  opacity: 1;
+}
+
+/* Tab 切換區 */
+.tl-tabs-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
+}
+
+.tl-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tl-tab {
+  padding: 0.3rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+
+.tl-tab:hover {
+  color: var(--text-primary);
+  border-color: var(--text-muted);
+}
+
+.tl-tab--active {
+  border-width: 1.5px;
+}
+
+/* 分類列表 */
+.tl-cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tl-cat-item {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tl-cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tl-cat-date {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  min-width: 4.5rem;
+  flex-shrink: 0;
+}
+
+.tl-cat-title {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.tl-cat-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 手機版調整 */
+@media (max-width: 640px) {
+  .tl-trunk {
+    left: 6px;
+  }
+
+  .tl-year-tick {
+    left: 6px;
+    transform: translateX(-50%);
+  }
+
+  .tl-range-line.tl-left,
+  .tl-range-line.tl-right {
+    left: 2rem;
+  }
+
+  .tl-node,
+  .tl-node.tl-left,
+  .tl-node.tl-right {
+    width: auto;
+    left: 0;
+    padding-left: 1.6rem;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .tl-left .tl-branch,
+  .tl-right .tl-branch {
+    align-items: flex-start;
+  }
+
+  .tl-left .tl-connector,
+  .tl-right .tl-connector {
+    left: 0;
+    right: auto;
+    width: 2rem;
+  }
+
+  .tl-left .tl-node-dot,
+  .tl-right .tl-node-dot {
+    left: calc(2rem - 4.5px);
+    right: auto;
+  }
+
+  .tl-cat-item {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
+  }
+}

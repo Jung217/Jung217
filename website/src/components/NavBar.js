@@ -53,6 +53,7 @@ export default function NavBar() {
                     {/* 桌機版連結 */}
                     <div className="nav-links">
                         <a href="/"><span className="inner">Home</span></a>
+                        <a href="/timeline"><span className="inner">Timeline</span></a>
                         <a href="/pottery"><span className="inner">Pottery</span></a>
                         <a href="/photography"><span className="inner">Photography</span></a>
                     </div>
@@ -73,6 +74,7 @@ export default function NavBar() {
             {/* 手機版全螢幕選單 */}
             <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
                 <a href="/" onClick={(e) => handleLinkClick(e, '/')}>Home</a>
+                <a href="/timeline" onClick={(e) => handleLinkClick(e, '/timeline')}>Timeline</a>
                 <a href="/pottery" onClick={(e) => handleLinkClick(e, '/pottery')}>Pottery</a>
                 <a href="/photography" onClick={(e) => handleLinkClick(e, '/photography')}>Photography</a>
             </div>
