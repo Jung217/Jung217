@@ -35,6 +35,50 @@ function getImagesAndText(folderPath, publicPrefix) {
     return { images, text };
 }
 
+function parseInfoTxt(rollPath, files) {
+    let camera = '';
+    let brand = '';
+    let filmStock = '';
+    let keywords = [];
+    let description = '';
+
+    const infoFile = files.find(file => file.toLowerCase() === 'info.txt');
+    if (!infoFile) return { camera, brand, filmStock, keywords, description };
+
+    const raw = fs.readFileSync(path.join(rollPath, infoFile), 'utf-8');
+    const lines = raw.split('\n');
+    const bodyLines = [];
+    let inBody = false;
+
+    lines.forEach(line => {
+        const trimmed = line.trim();
+
+        if (!inBody && trimmed === '') {
+            inBody = true;
+            return;
+        }
+        if (inBody) {
+            bodyLines.push(line);
+            return;
+        }
+
+        const match = trimmed.match(/^([^:]+):\s*(.*)$/);
+        if (match) {
+            const key = match[1].toLowerCase().trim();
+            const val = match[2].trim();
+            if (key === 'camera') camera = val;
+            else if (key === 'brand') brand = val;
+            else if (key === 'film') filmStock = val;
+            else if (key === 'keywords') {
+                keywords = val.split(',').map(k => k.trim()).filter(Boolean);
+            }
+        }
+    });
+
+    description = bodyLines.join('\n').trim();
+    return { camera, brand, filmStock, keywords, description };
+}
+
 function generateData() {
     /* 讀取現有 JSON，保留 Film 與 Digital（Flickr）資料 */
     let existingData = { pottery: [], photography: { digital: [], film: [] } };
@@ -111,49 +155,7 @@ function generateData() {
             .sort()
             .map(file => `/gallery/photography/film/${rollFolder}/${file}`);
 
-        /* 解析 info.txt */
-        let camera = '';
-        let brand = '';
-        let filmStock = '';
-        let keywords = [];
-        let description = '';
-
-        const infoFile = files.find(file => file.toLowerCase() === 'info.txt');
-        if (infoFile) {
-            const raw = fs.readFileSync(path.join(rollPath, infoFile), 'utf-8');
-            const lines = raw.split('\n');
-            const bodyLines = [];
-            let inBody = false;
-
-            lines.forEach(line => {
-                const trimmed = line.trim();
-
-                /* 空行之後視為自由描述 */
-                if (!inBody && trimmed === '') {
-                    inBody = true;
-                    return;
-                }
-                if (inBody) {
-                    bodyLines.push(line);
-                    return;
-                }
-
-                /* 解析 key: value 欄位（不區分大小寫）*/
-                const match = trimmed.match(/^([^:]+):\s*(.*)$/);
-                if (match) {
-                    const key = match[1].toLowerCase().trim();
-                    const val = match[2].trim();
-                    if (key === 'camera') camera = val;
-                    else if (key === 'brand') brand = val;
-                    else if (key === 'film') filmStock = val;
-                    else if (key === 'keywords') {
-                        keywords = val.split(',').map(k => k.trim()).filter(Boolean);
-                    }
-                }
-            });
-
-            description = bodyLines.join('\n').trim();
-        }
+        const { camera, brand, filmStock, keywords, description } = parseInfoTxt(rollPath, files);
 
         data.photography.film.push({
             id: rollFolder,                          /* e.g. "001" */

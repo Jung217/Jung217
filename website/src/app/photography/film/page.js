@@ -1,15 +1,12 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 import FilmRollGrid from '@/components/FilmRollGrid';
+import { readGalleryData } from '@/lib/gallery';
 
 export default function FilmPhotographyPage() {
-    const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
     let film = [];
 
     try {
-        const raw = fs.readFileSync(dataPath, 'utf8');
-        const data = JSON.parse(raw);
+        const data = readGalleryData();
         film = data.photography.film;
     } catch (e) {
         console.error(e);

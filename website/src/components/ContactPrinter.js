@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-const ContactPrinter = () => {
+export default function ContactPrinter() {
     const [timeStr, setTimeStr] = useState('');
     const [mounted, setMounted] = useState(false);
 
@@ -111,6 +111,4 @@ const ContactPrinter = () => {
             </div>
         </div>
     );
-};
-
-export default ContactPrinter;
+}

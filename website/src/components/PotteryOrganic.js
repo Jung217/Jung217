@@ -1,19 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import Lightbox from '@/components/Lightbox';
+import { shuffle } from '@/lib/shuffle';
 
 const FLOAT_STAGGER_STEP = 0.4;
 const FLOAT_STAGGER_MOD = 3;
-
-function shuffle(arr) {
-    const shuffled = [...arr];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-}
 
 export default function PotteryOrganic({ images = [] }) {
     const gridRef = useRef(null);
@@ -23,14 +15,6 @@ export default function PotteryOrganic({ images = [] }) {
     useEffect(() => {
         setShuffledImages(shuffle(images));
     }, [images]);
-
-    useEffect(() => {
-        const onKey = (e) => {
-            if (e.key === 'Escape') setLightboxSrc(null);
-        };
-        window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
-    }, []);
 
     useEffect(() => {
         const grid = gridRef.current;
@@ -63,17 +47,12 @@ export default function PotteryOrganic({ images = [] }) {
 
     return (
         <>
-            {lightboxSrc && createPortal(
-                <div className="pc-lightbox" onClick={() => setLightboxSrc(null)}>
-                    <img
-                        src={lightboxSrc}
-                        alt="Pottery large view"
-                        className="pc-lightbox-img"
-                        onClick={(e) => e.stopPropagation()}
-                    />
-                    <button className="pc-lightbox-close" onClick={() => setLightboxSrc(null)}>✕</button>
-                </div>,
-                document.body
+            {lightboxSrc && (
+                <Lightbox
+                    src={lightboxSrc}
+                    alt="Pottery large view"
+                    onClose={() => setLightboxSrc(null)}
+                />
             )}
 
             <main className="po-page animate-fade-in">

@@ -1,14 +1,12 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
+import { readGalleryData } from '@/lib/gallery';
+import { shuffle } from '@/lib/shuffle';
 
 const PREVIEW_COUNT = 4;
-const GALLERY_DATA_PATH = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
 
 function pickRandom(images, n) {
     if (!images?.length) return [];
-    const shuffled = [...images].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, n);
+    return shuffle(images).slice(0, n);
 }
 
 function EntryCard({ href, previews, overlayClass, badge, label, meta, grain = false }) {
@@ -39,8 +37,7 @@ export default function PhotographyPage() {
     let filmPreviews = [];
 
     try {
-        const raw = fs.readFileSync(GALLERY_DATA_PATH, 'utf8');
-        const data = JSON.parse(raw);
+        const data = readGalleryData();
         const { digital, film } = data.photography;
 
         digitalTotal = digital.reduce((sum, item) => sum + (item.count || 0), 0);

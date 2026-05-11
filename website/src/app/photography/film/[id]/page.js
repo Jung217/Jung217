@@ -2,16 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
 import InfinitePhotoGrid from '@/components/InfinitePhotoGrid';
+import { readGalleryData } from '@/lib/gallery';
 
 export async function generateStaticParams() {
     const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
     if (!fs.existsSync(dataPath)) return [];
 
-    const raw = fs.readFileSync(dataPath, 'utf8');
-    const data = JSON.parse(raw);
-
+    const data = readGalleryData();
     return data.photography.film.map((item) => ({
-        id: item.id, // e.g. "001"
+        id: item.id,
     }));
 }
 
@@ -19,10 +18,7 @@ export const dynamicParams = false;
 
 export default async function FilmRollPage({ params }) {
     const resolvedParams = await params;
-    const dataPath = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
-    const raw = fs.readFileSync(dataPath, 'utf8');
-    const data = JSON.parse(raw);
-
+    const data = readGalleryData();
     const item = data.photography.film.find((p) => p.id === resolvedParams.id);
 
     if (!item) {
@@ -70,7 +66,6 @@ export default async function FilmRollPage({ params }) {
                     </div>
                 )}
 
-                {/* 自由描述文字 */}
                 {item.description && (
                     <p className="detail-description" style={{ marginTop: '1.5rem', whiteSpace: 'pre-wrap', color: 'var(--text-secondary)' }}>
                         {item.description}
@@ -78,7 +73,6 @@ export default async function FilmRollPage({ params }) {
                 )}
             </div>
 
-            {/* 照片網格 */}
             <InfinitePhotoGrid
                 images={item.images}
                 altPrefix={`Roll #${item.rollNumber} — ${item.camera || ''}`}

@@ -1,16 +1,12 @@
-import fs from 'fs';
-import path from 'path';
 import Link from 'next/link';
 import InfinitePhotoGrid from '@/components/InfinitePhotoGrid';
-
-const GALLERY_DATA_PATH = path.join(process.cwd(), 'src', 'data', 'gallery-data.json');
+import { readGalleryData } from '@/lib/gallery';
 
 export default function DigitalPhotographyPage() {
     let allImages = [];
 
     try {
-        const raw = fs.readFileSync(GALLERY_DATA_PATH, 'utf8');
-        const { photography } = JSON.parse(raw);
+        const { photography } = readGalleryData();
         allImages = photography.digital.flatMap((item) => item.images || []);
     } catch (e) {
         console.error(e);

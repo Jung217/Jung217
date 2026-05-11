@@ -282,7 +282,6 @@ export default function CodeDrift() {
     window.addEventListener('mouseleave', onMouseLeave);
 
     resize();
-    initParticles();
     animId = requestAnimationFrame(animate);
 
     return () => {

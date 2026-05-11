@@ -14,11 +14,15 @@ node_modules
 coverage
 
 # next.js
+.next/
 website/.next/
 website/out/
 
 # production
 /build
+
+# editor
+.vscode/
 
 # misc
 .DS_Store
