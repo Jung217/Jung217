@@ -10,13 +10,16 @@ const SECTION_KEYS = {
     '大事記': 'milestones',
 };
 
+const DATE_RANGE_PATTERN = /^-\s*(\d{4}-\d{2})\s*~\s*(present|\d{4}-\d{2})\s*\|\s*(.+)$/;
+const SINGLE_DATE_PATTERN = /^-\s*(\d{4}-\d{2})\s*\|\s*(.+)$/;
+
 function parseLine(line) {
-    const rangeMatch = line.match(/^-\s*(\d{4}-\d{2})\s*~\s*(present|\d{4}-\d{2})\s*\|\s*(.+)$/);
+    const rangeMatch = line.match(DATE_RANGE_PATTERN);
     if (rangeMatch) {
         return { date: rangeMatch[1], endDate: rangeMatch[2], title: rangeMatch[3].trim() };
     }
 
-    const singleMatch = line.match(/^-\s*(\d{4}-\d{2})\s*\|\s*(.+)$/);
+    const singleMatch = line.match(SINGLE_DATE_PATTERN);
     if (singleMatch) {
         return { date: singleMatch[1], endDate: null, title: singleMatch[2].trim() };
     }

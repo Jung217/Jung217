@@ -17,10 +17,12 @@ const MONTH_PX = 16;
 const MIN_NODE_GAP = 38;
 const TREE_PADDING = 24;
 const TREE_BOTTOM_MARGIN = 20;
+const NODE_DOT_SIZE = 9;
+const NODE_DOT_RADIUS = NODE_DOT_SIZE / 2;
 const DOT_GAP_REM = 0.8;
 const CONNECTOR_LENGTHS = [3.0, 5.8, 4.2, 6.5, 2.8, 5.1, 3.6, 6.0, 4.8, 2.5, 5.5, 3.3, 6.8, 4.0, 5.3, 2.6, 4.5, 7.0];
 
-function getCategoryMeta(key) {
+function findCategory(key) {
     return CATEGORIES.find((c) => c.key === key);
 }
 
@@ -40,13 +42,9 @@ function formatDate(dateStr) {
 }
 
 function getAllEntries(sections) {
-    const all = [];
-    for (const cat of CATEGORIES) {
-        const items = sections[cat.key] || [];
-        items.forEach((item) => all.push({ ...item, category: cat.key }));
-    }
-    all.sort((a, b) => b.date.localeCompare(a.date));
-    return all;
+    return CATEGORIES
+        .flatMap((cat) => (sections[cat.key] || []).map((item) => ({ ...item, category: cat.key })))
+        .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 function buildYearTicks(minMonth, maxMonth) {
@@ -96,6 +94,12 @@ function DateDisplay({ entry }) {
     return <span className="tl-date">{formatDate(entry.date)}</span>;
 }
 
+function YearDigits({ year }) {
+    return String(year).split('').map((digit, i) => (
+        <span key={i}>{digit}</span>
+    ));
+}
+
 function YearTick({ tick, isOldest }) {
     const dotSize = isOldest ? 0 : YEAR_DOT_SIZE;
     const digitSize = (MONTHS_PER_YEAR * MONTH_PX - dotSize) / (YEAR_DIGITS * DIGIT_LINE_HEIGHT);
@@ -103,9 +107,7 @@ function YearTick({ tick, isOldest }) {
     return (
         <div className="tl-year-tick" style={{ top: `${tick.top}px` }}>
             <span className="tl-year-label" style={{ fontSize: `${digitSize}px`, lineHeight: DIGIT_LINE_HEIGHT }}>
-                {String(tick.year).split('').map((d, di) => (
-                    <span key={di}>{d}</span>
-                ))}
+                <YearDigits year={tick.year} />
                 {!isOldest && <span className="tl-year-dot" />}
             </span>
         </div>
@@ -113,7 +115,7 @@ function YearTick({ tick, isOldest }) {
 }
 
 function TimelineNode({ entry }) {
-    const meta = getCategoryMeta(entry.category);
+    const meta = findCategory(entry.category);
     const isLeft = entry.side === 'tl-left';
     const nodeStyle = {
         top: `${entry.top}px`,
@@ -121,7 +123,7 @@ function TimelineNode({ entry }) {
     };
     const dotStyle = {
         backgroundColor: meta.color,
-        [isLeft ? 'right' : 'left']: `calc(${entry.connectorRem}rem - 4.5px)`,
+        [isLeft ? 'right' : 'left']: `calc(${entry.connectorRem}rem - ${NODE_DOT_RADIUS}px)`,
     };
     return (
         <div className={`tl-node ${entry.side}`} style={nodeStyle}>
@@ -219,16 +221,14 @@ function TimelineGrid({ entries }) {
                                 className="tl-mobile-year-label tl-mobile-year-label--vertical"
                                 style={currentYearFontSize ? { fontSize: `${currentYearFontSize}px`, lineHeight: DIGIT_LINE_HEIGHT } : {}}
                             >
-                                {year.split('').map((d, di) => (
-                                    <span key={di}>{d}</span>
-                                ))}
+                                <YearDigits year={year} />
                             </span>
                         ) : (
                             <span className="tl-mobile-year-label">{year}</span>
                         )}
                         <div className="tl-mobile-entries" ref={isCurrent ? currentYearRef : undefined}>
                             {items.map((entry, idx) => {
-                                const meta = getCategoryMeta(entry.category);
+                                const meta = findCategory(entry.category);
                                 return (
                                     <div key={idx} className="tl-mobile-entry">
                                         <span className="tl-mobile-dot" style={{ backgroundColor: meta.color }} />
@@ -274,7 +274,7 @@ export default function TimelineView({ sections }) {
     const allEntries = getAllEntries(sections);
     const [activeTab, setActiveTab] = useState(CATEGORIES[0].key);
 
-    const activeMeta = getCategoryMeta(activeTab);
+    const activeMeta = findCategory(activeTab);
     const activeEntries = (sections[activeTab] || []).sort((a, b) => b.date.localeCompare(a.date));
 
     return (

@@ -3583,16 +3583,11 @@ a.gc-pr:hover {
   box-shadow: 0 0 0 2px var(--bg-primary);
 }
 
-.tl-left .tl-node-dot {}
-
-.tl-right .tl-node-dot {}
-
 /* 節點 */
 .tl-node {
   position: absolute;
   width: 50%;
   transform: translateY(-50%);
-  z-index: 1;
 }
 
 .tl-node:hover {
