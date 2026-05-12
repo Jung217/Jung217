@@ -3574,31 +3574,6 @@ a.gc-pr:hover {
   flex-shrink: 0;
 }
 
-/* 區間延伸線 */
-.tl-range-line {
-  position: absolute;
-  border-left: 1px solid var(--accent);
-  z-index: 1;
-}
-
-.tl-range-line.tl-left {
-  left: calc(50% - 3.6rem);
-}
-
-.tl-range-line.tl-right {
-  left: calc(50% + 3.6rem - 1px);
-}
-
-.tl-range-cap {
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--bg-primary);
-}
-
 .tl-node-dot {
   position: absolute;
   top: 50%;
@@ -3640,18 +3615,19 @@ a.gc-pr:hover {
   position: absolute;
   top: 50%;
   height: 1px;
-  background: var(--accent);
   z-index: 2;
 }
 
 .tl-left .tl-connector {
   right: 0;
   width: 3.6rem;
+  background: linear-gradient(to left, var(--accent), transparent);
 }
 
 .tl-right .tl-connector {
   left: 0;
   width: 3.6rem;
+  background: linear-gradient(to right, var(--accent), transparent);
 }
 
 .tl-branch {
@@ -3772,47 +3748,81 @@ a.gc-pr:hover {
   line-height: 1.4;
 }
 
+.tl-mobile-grid {
+  display: none;
+}
+
+.tl-mobile-year {
+  display: flex;
+  gap: 0.8rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tl-mobile-year:last-child {
+  border-bottom: none;
+}
+
+.tl-mobile-year-label {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  min-width: 2.8rem;
+  padding-top: 0.25rem;
+}
+
+.tl-mobile-year-label--vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: unset;
+  padding-top: 0;
+}
+
+.tl-mobile-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.tl-mobile-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tl-mobile-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+
+.tl-mobile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.tl-desc--visible {
+  max-height: none;
+  opacity: 1;
+}
+
 @media (max-width: 640px) {
-  .tl-trunk {
-    left: 6px;
+  .tl-tree {
+    display: none;
   }
 
-  .tl-year-tick {
-    left: 6px;
-    transform: translateX(-50%);
-  }
-
-  .tl-range-line.tl-left,
-  .tl-range-line.tl-right {
-    left: 2rem;
-  }
-
-  .tl-node,
-  .tl-node.tl-left,
-  .tl-node.tl-right {
-    width: auto;
-    left: 0;
-    padding-left: 1.6rem;
-    padding-right: 0;
-    text-align: left;
-  }
-
-  .tl-left .tl-branch,
-  .tl-right .tl-branch {
-    align-items: flex-start;
-  }
-
-  .tl-left .tl-connector,
-  .tl-right .tl-connector {
-    left: 0;
-    right: auto;
-    width: 2rem;
-  }
-
-  .tl-left .tl-node-dot,
-  .tl-right .tl-node-dot {
-    left: calc(2rem - 4.5px);
-    right: auto;
+  .tl-mobile-grid {
+    display: flex;
+    flex-direction: column;
   }
 
   .tl-cat-item {

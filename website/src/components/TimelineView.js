@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const CATEGORIES = [
     { key: 'experience', label: '經歷', color: '#eab308' },
@@ -13,8 +13,8 @@ const MONTHS_PER_YEAR = 12;
 const YEAR_DIGITS = 4;
 const DIGIT_LINE_HEIGHT = 0.75;
 const YEAR_DOT_SIZE = 6;
-const MONTH_PX = 14;
-const MIN_NODE_GAP = 68;
+const MONTH_PX = 16;
+const MIN_NODE_GAP = 38;
 const TREE_PADDING = 24;
 const TREE_BOTTOM_MARGIN = 20;
 
@@ -80,13 +80,6 @@ function positionNodes(entries, maxMonth) {
     return nodes;
 }
 
-function buildRangeLine(node, currentMonth, maxMonth) {
-    const endMonthVal = node.endDate === 'present' ? currentMonth : toMonths(node.endDate);
-    const endPos = monthToPixel(endMonthVal, maxMonth);
-    const height = node.top - endPos;
-    return height > 0 ? { endPos, height } : null;
-}
-
 function DateDisplay({ entry }) {
     if (entry.endDate) {
         return (
@@ -114,26 +107,11 @@ function YearTick({ tick, isOldest }) {
     );
 }
 
-function RangeLine({ node, currentMonth, maxMonth }) {
-    const range = buildRangeLine(node, currentMonth, maxMonth);
-    if (!range) return null;
-
-    const meta = getCategoryMeta(node.category);
-    return (
-        <div
-            className={`tl-range-line ${node.side}`}
-            style={{ top: `${range.endPos}px`, height: `${range.height}px` }}
-        >
-            <span className="tl-range-cap" style={{ backgroundColor: meta.color }} />
-        </div>
-    );
-}
-
 function TimelineNode({ entry }) {
     const meta = getCategoryMeta(entry.category);
     return (
         <div className={`tl-node ${entry.side}`} style={{ top: `${entry.top}px` }}>
-            {!entry.endDate && <span className="tl-node-dot" style={{ backgroundColor: meta.color }} />}
+            <span className="tl-node-dot" style={{ backgroundColor: meta.color }} />
             <div className="tl-connector" />
             <div className="tl-branch">
                 <DateDisplay entry={entry} />
@@ -150,7 +128,6 @@ function TimelineTree({ entries }) {
     }
 
     const now = new Date();
-    const currentMonth = now.getFullYear() * MONTHS_PER_YEAR + (now.getMonth() + 1);
     const maxMonth = now.getFullYear() * MONTHS_PER_YEAR + MONTHS_PER_YEAR;
 
     const minMonth = Math.min(...entries.map((e) => toMonths(e.date)));
@@ -174,13 +151,79 @@ function TimelineTree({ entries }) {
                 <YearTick key={tick.year} tick={tick} isOldest={i === 0} />
             ))}
 
-            {nodes.filter((n) => n.endDate).map((node, idx) => (
-                <RangeLine key={`rline-${idx}`} node={node} currentMonth={currentMonth} maxMonth={maxMonth} />
-            ))}
-
             {nodes.map((entry, idx) => (
                 <TimelineNode key={idx} entry={entry} />
             ))}
+        </div>
+    );
+}
+
+function groupByYear(entries) {
+    const groups = {};
+    for (const entry of entries) {
+        const year = entry.date.split('-')[0];
+        if (!groups[year]) groups[year] = [];
+        groups[year].push(entry);
+    }
+    return Object.keys(groups)
+        .sort((a, b) => b.localeCompare(a))
+        .map((year) => ({ year, items: groups[year] }));
+}
+
+function TimelineGrid({ entries }) {
+    const currentYearRef = useRef(null);
+    const [currentYearFontSize, setCurrentYearFontSize] = useState(0);
+    const currentYear = String(new Date().getFullYear());
+
+    const years = groupByYear(entries);
+
+    useEffect(() => {
+        const el = currentYearRef.current;
+        if (el) {
+            setCurrentYearFontSize(el.offsetHeight / (YEAR_DIGITS * DIGIT_LINE_HEIGHT));
+        }
+    }, [entries]);
+
+    if (entries.length === 0) {
+        return <p className="text-secondary">No timeline entries yet.</p>;
+    }
+
+    return (
+        <div className="tl-mobile-grid">
+            {years.map(({ year, items }) => {
+                const isCurrent = year === currentYear;
+                return (
+                    <div key={year} className="tl-mobile-year">
+                        {isCurrent ? (
+                            <span
+                                className="tl-mobile-year-label tl-mobile-year-label--vertical"
+                                style={currentYearFontSize ? { fontSize: `${currentYearFontSize}px`, lineHeight: DIGIT_LINE_HEIGHT } : {}}
+                            >
+                                {year.split('').map((d, di) => (
+                                    <span key={di}>{d}</span>
+                                ))}
+                            </span>
+                        ) : (
+                            <span className="tl-mobile-year-label">{year}</span>
+                        )}
+                        <div className="tl-mobile-entries" ref={isCurrent ? currentYearRef : undefined}>
+                            {items.map((entry, idx) => {
+                                const meta = getCategoryMeta(entry.category);
+                                return (
+                                    <div key={idx} className="tl-mobile-entry">
+                                        <span className="tl-mobile-dot" style={{ backgroundColor: meta.color }} />
+                                        <div className="tl-mobile-content">
+                                            <DateDisplay entry={entry} />
+                                            <span className="tl-title">{entry.title}</span>
+                                            {entry.desc && <span className="tl-desc tl-desc--visible">{entry.desc}</span>}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 }
@@ -226,6 +269,7 @@ export default function TimelineView({ sections }) {
                     ))}
                 </div>
                 <TimelineTree entries={allEntries} />
+                <TimelineGrid entries={allEntries} />
             </section>
 
             <section className="tl-tabs-section">
