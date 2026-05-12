@@ -3536,8 +3536,6 @@ a.gc-pr:hover {
 
 .tl-tree {
   position: relative;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
 .tl-trunk {
@@ -3585,30 +3583,29 @@ a.gc-pr:hover {
   box-shadow: 0 0 0 2px var(--bg-primary);
 }
 
-.tl-left .tl-node-dot {
-  right: calc(3.6rem - 4.5px);
-}
+.tl-left .tl-node-dot {}
 
-.tl-right .tl-node-dot {
-  left: calc(3.6rem - 4.5px);
-}
+.tl-right .tl-node-dot {}
 
 /* 節點 */
 .tl-node {
   position: absolute;
   width: 50%;
   transform: translateY(-50%);
+  z-index: 1;
+}
+
+.tl-node:hover {
+  z-index: 10;
 }
 
 .tl-node.tl-left {
   left: 0;
-  padding-right: 4.4rem;
   text-align: right;
 }
 
 .tl-node.tl-right {
   left: 50%;
-  padding-left: 4.4rem;
 }
 
 .tl-connector {
@@ -3620,13 +3617,11 @@ a.gc-pr:hover {
 
 .tl-left .tl-connector {
   right: 0;
-  width: 3.6rem;
   background: linear-gradient(to left, var(--accent), transparent);
 }
 
 .tl-right .tl-connector {
   left: 0;
-  width: 3.6rem;
   background: linear-gradient(to right, var(--accent), transparent);
 }
 
@@ -3634,6 +3629,13 @@ a.gc-pr:hover {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.tl-node:hover .tl-branch {
+  backdrop-filter: blur(10px);
 }
 
 .tl-left .tl-branch {
@@ -3644,32 +3646,42 @@ a.gc-pr:hover {
   align-items: flex-start;
 }
 
-.tl-date {
-  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
 .tl-title {
-  font-size: 0.9rem;
+  font-size: 1.3rem;
   color: var(--text-primary);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
-.tl-desc {
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
+.tl-details {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
-  white-space: pre-wrap;
 }
 
-.tl-node:hover .tl-desc {
-  max-height: 80px;
+.tl-node:hover .tl-details {
   opacity: 1;
+}
+
+.tl-node:hover .tl-details--above {
+  max-height: 2rem;
+}
+
+.tl-node:hover .tl-details--below {
+  max-height: 120px;
+}
+
+.tl-date {
+  font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.tl-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  white-space: pre-wrap;
 }
 
 /* Tab 切換區 */

@@ -17,6 +17,8 @@ const MONTH_PX = 16;
 const MIN_NODE_GAP = 38;
 const TREE_PADDING = 24;
 const TREE_BOTTOM_MARGIN = 20;
+const DOT_GAP_REM = 0.8;
+const CONNECTOR_LENGTHS = [3.0, 5.8, 4.2, 6.5, 2.8, 5.1, 3.6, 6.0, 4.8, 2.5, 5.5, 3.3, 6.8, 4.0, 5.3, 2.6, 4.5, 7.0];
 
 function getCategoryMeta(key) {
     return CATEGORIES.find((c) => c.key === key);
@@ -75,6 +77,9 @@ function positionNodes(entries, maxMonth) {
         }
         if (node.side === 'tl-left') lastLeft = node.top;
         else lastRight = node.top;
+
+        node.connectorRem = CONNECTOR_LENGTHS[idx % CONNECTOR_LENGTHS.length];
+        node.paddingRem = node.connectorRem + DOT_GAP_REM;
     });
 
     return nodes;
@@ -109,14 +114,29 @@ function YearTick({ tick, isOldest }) {
 
 function TimelineNode({ entry }) {
     const meta = getCategoryMeta(entry.category);
+    const isLeft = entry.side === 'tl-left';
+    const nodeStyle = {
+        top: `${entry.top}px`,
+        [isLeft ? 'paddingRight' : 'paddingLeft']: `${entry.paddingRem}rem`,
+    };
+    const dotStyle = {
+        backgroundColor: meta.color,
+        [isLeft ? 'right' : 'left']: `calc(${entry.connectorRem}rem - 4.5px)`,
+    };
     return (
-        <div className={`tl-node ${entry.side}`} style={{ top: `${entry.top}px` }}>
-            <span className="tl-node-dot" style={{ backgroundColor: meta.color }} />
-            <div className="tl-connector" />
+        <div className={`tl-node ${entry.side}`} style={nodeStyle}>
+            <span className="tl-node-dot" style={dotStyle} />
+            <div className="tl-connector" style={{ width: `${entry.connectorRem}rem` }} />
             <div className="tl-branch">
-                <DateDisplay entry={entry} />
+                <div className="tl-details tl-details--above">
+                    <DateDisplay entry={entry} />
+                </div>
                 <span className="tl-title">{entry.title}</span>
-                {entry.desc && <span className="tl-desc">{entry.desc}</span>}
+                {entry.desc && (
+                    <div className="tl-details tl-details--below">
+                        <span className="tl-desc">{entry.desc}</span>
+                    </div>
+                )}
             </div>
         </div>
     );
