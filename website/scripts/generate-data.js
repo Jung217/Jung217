@@ -139,6 +139,7 @@ function generateData() {
     }
 
     // Photography - Film（全域捲號格式：film/001/ film/002/ ...）
+    const FILM_CDN_BASE = 'https://raw.githubusercontent.com/Jung217/Jung217/refs/heads/main/website/public';
     const filmBase = path.join(galleryDir, 'photography', 'film');
     const rollDirs = getDirectories(filmBase);
 
@@ -153,7 +154,7 @@ function generateData() {
         const images = files
             .filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
             .sort()
-            .map(file => `/gallery/photography/film/${rollFolder}/${file}`);
+            .map(file => `${FILM_CDN_BASE}/gallery/photography/film/${rollFolder}/${file}`);
 
         const { camera, brand, filmStock, keywords, description } = parseInfoTxt(rollPath, files);
 
