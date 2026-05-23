@@ -44,6 +44,8 @@ jobs:
           NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: ${{ secrets.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET }}
           NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN: ${{ secrets.NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN }}
         run: npm run build
+      - name: Remove local gallery images (now served from GitHub Raw)
+        run: rm -rf ./website/out/gallery/photography/film
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
