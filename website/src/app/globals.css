@@ -3588,6 +3588,7 @@ a.gc-pr:hover {
   position: absolute;
   width: 50%;
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .tl-node:hover {
@@ -3631,6 +3632,7 @@ a.gc-pr:hover {
 
 .tl-node:hover .tl-branch {
   backdrop-filter: blur(10px);
+  background: rgba(9, 9, 9, 0.5);
 }
 
 .tl-left .tl-branch {
@@ -3645,6 +3647,16 @@ a.gc-pr:hover {
   font-size: 1.3rem;
   color: var(--text-primary);
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.tl-node:hover .tl-title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 .tl-details {
