@@ -3773,6 +3773,7 @@ a.gc-pr:hover {
 
 .tl-mobile-year {
   display: flex;
+  align-items: flex-start;
   gap: 0.8rem;
   padding: 1rem 0;
   border-bottom: 1px solid var(--border-color);
@@ -3798,6 +3799,8 @@ a.gc-pr:hover {
   align-items: center;
   min-width: unset;
   padding-top: 0;
+  overflow: hidden;
+  max-width: 3rem;
 }
 
 .tl-mobile-entries {

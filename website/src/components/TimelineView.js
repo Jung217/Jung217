@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 
 const CATEGORIES = [
     { key: 'experience', label: '經歷', color: '#eab308' },
@@ -201,10 +201,16 @@ function TimelineGrid({ entries }) {
 
     useEffect(() => {
         const el = currentYearRef.current;
-        if (el) {
-            setCurrentYearFontSize(el.offsetHeight / (YEAR_DIGITS * DIGIT_LINE_HEIGHT));
-        }
-    }, [entries]);
+        if (!el) return;
+        const observer = new ResizeObserver(([entry]) => {
+            const h = entry.contentRect.height;
+            if (h > 0) {
+                setCurrentYearFontSize(h / (YEAR_DIGITS * DIGIT_LINE_HEIGHT));
+            }
+        });
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     if (entries.length === 0) {
         return <p className="text-secondary">No timeline entries yet.</p>;
@@ -271,7 +277,7 @@ function CategoryList({ entries, color }) {
 }
 
 export default function TimelineView({ sections }) {
-    const allEntries = getAllEntries(sections);
+    const allEntries = useMemo(() => getAllEntries(sections), [sections]);
     const [activeTab, setActiveTab] = useState(CATEGORIES[0].key);
 
     const activeMeta = findCategory(activeTab);
