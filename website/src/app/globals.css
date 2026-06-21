@@ -460,6 +460,13 @@ h6 {
   padding: 0;
 }
 
+/* 預留副標兩行高度：打字機由「完整 SSR 文字 → 清空 → 重打」時不致造成版面位移 (CLS) */
+@media (max-width: 768px) {
+  .hero-subtitle .terminal-text {
+    min-height: 3.2em;
+  }
+}
+
 .section {
   padding: 3rem 0;
   border-top: 1px solid var(--border-color);
@@ -2451,6 +2458,47 @@ a.gc-pr:hover {
   flex: 1.5;
   display: flex;
   flex-direction: column;
+}
+
+/* Spotify facade — 點擊載入前的佔位按鈕 */
+.spotify-facade {
+  width: 100%;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #181818;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  color: #1DB954;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.3s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.spotify-facade:hover {
+  background: #222;
+}
+
+.spotify-facade:active {
+  transform: scale(0.99);
+}
+
+.spotify-facade-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spotify-facade-logo {
+  flex-shrink: 0;
+}
+
+.spotify-facade-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .spotify-top-tracks {

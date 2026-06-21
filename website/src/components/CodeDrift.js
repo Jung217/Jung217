@@ -37,9 +37,9 @@ const CONFIG = {
     mouseRadius: 150,
   },
   mobile: {
-    density: 40 / (800 * 800),  // 再次提高密度
-    minCount: 100,
-    maxCount: 220,
+    density: 14 / (800 * 800),  // 降低密度以減輕手機主執行緒負擔
+    minCount: 18,
+    maxCount: 45,
     fontRange: [8, 18],         // 縮小字體
     glow: false,                // 關閉 shadowBlur
     connections: false,         // 關閉連線
@@ -243,7 +243,9 @@ export default function CodeDrift() {
     }
 
     let lastTime = 0;
-    function animate(timestamp) {
+    let running = false;
+    function loop(timestamp) {
+      if (!running) return;
       const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
       lastTime = timestamp;
       time += dt;
@@ -257,7 +259,7 @@ export default function CodeDrift() {
         // 只繪製可視範圍內的粒子
         if (p.isVisible()) p.draw();
       }
-      animId = requestAnimationFrame(animate);
+      animId = requestAnimationFrame(loop);
     }
 
     // 滑鼠座標轉換
@@ -274,19 +276,71 @@ export default function CodeDrift() {
       mouse.y = -9999;
     }
 
-    const resizeObserver = new ResizeObserver(() => resize());
-    resizeObserver.observe(canvas.parentElement);
+    let disposed = false;
+    let idleId = null;
+    let resizeObserver = null;
+    let io = null;
 
-    // 桌面用 mousemove，手機不綁 touchmove 避免干擾捲動
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseleave', onMouseLeave);
+    function startLoop() {
+      if (running || disposed) return;
+      running = true;
+      lastTime = 0;
+      animId = requestAnimationFrame(loop);
+    }
 
-    resize();
-    animId = requestAnimationFrame(animate);
+    function stopLoop() {
+      running = false;
+      cancelAnimationFrame(animId);
+    }
+
+    // 真正的初始化：建立 observer、計算尺寸、依可視狀態啟停動畫
+    function setup() {
+      if (disposed) return;
+
+      resizeObserver = new ResizeObserver(() => resize());
+      resizeObserver.observe(canvas.parentElement);
+
+      // 桌面用 mousemove，手機不綁 touchmove 避免干擾捲動
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseleave', onMouseLeave);
+
+      resize();
+
+      // 畫布捲入視窗附近才執行動畫，捲離即暫停，避免持續佔用主執行緒
+      io = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) startLoop();
+          else stopLoop();
+        },
+        { rootMargin: '200px 0px' }
+      );
+      io.observe(canvas);
+    }
+
+    // 尊重「減少動態效果」偏好：完全不啟動裝飾動畫
+    const prefersReducedMotion =
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      // 延遲到瀏覽器閒置時才初始化，把主執行緒讓給首屏渲染與 hydration
+      // （顯著改善行動裝置的 FCP / LCP / TBT）
+      if ('requestIdleCallback' in window) {
+        idleId = window.requestIdleCallback(setup, { timeout: 2000 });
+      } else {
+        idleId = window.setTimeout(setup, 300);
+      }
+    }
 
     return () => {
-      cancelAnimationFrame(animId);
-      resizeObserver.disconnect();
+      disposed = true;
+      stopLoop();
+      if (idleId != null) {
+        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleId);
+        clearTimeout(idleId);
+      }
+      if (resizeObserver) resizeObserver.disconnect();
+      if (io) io.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseleave', onMouseLeave);
     };

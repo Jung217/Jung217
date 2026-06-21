@@ -55,8 +55,9 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://i.scdn.co" />
         <link
           rel="preload"
-          href="/profile.jpg"
+          href="/profile.avif"
           as="image"
+          type="image/avif"
           fetchPriority="high"
         />
       </head>

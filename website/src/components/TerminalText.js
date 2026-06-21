@@ -6,10 +6,22 @@ const START_DELAY_MS = 500;
 const DEFAULT_TYPING_SPEED = 50;
 
 export default function TerminalText({ text, typingSpeed = DEFAULT_TYPING_SPEED }) {
-    const [displayedText, setDisplayedText] = useState('');
-    const [isTyping, setIsTyping] = useState(true);
+    // 初始值即為完整文字：伺服器端會把整段文字寫進 HTML，
+    // 讓這個 LCP 元素在首屏（FCP）就完成繪製，而非等到 JS 逐字打完。
+    const [displayedText, setDisplayedText] = useState(text);
+    const [isTyping, setIsTyping] = useState(false);
 
     useEffect(() => {
+        // 尊重「減少動態效果」偏好：直接保留完整文字，不做打字機動畫
+        const prefersReducedMotion =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            setDisplayedText(text);
+            setIsTyping(false);
+            return;
+        }
+
         let i = 0;
         let typeWriter;
         setDisplayedText('');

@@ -4,6 +4,7 @@ import ContactPrinter from '@/components/ContactPrinter';
 import SocialFloat from '@/components/SocialFloat';
 import CurrentlyPlaying from '@/components/CurrentlyPlaying';
 import CodeDrift from '@/components/CodeDrift';
+import SpotifyEmbed from '@/components/SpotifyEmbed';
 import { getTopTracks } from '@/lib/spotify';
 
 export default async function Home() {
@@ -13,15 +14,19 @@ export default async function Home() {
     <>
       <div className="animate-fade-in">
         <section className="hero">
-          <img
-            src="/profile.jpg"
-            alt="CJ Chien portrait"
-            className="hero-bg-img"
-            width={1920}
-            height={742}
-            fetchPriority="high"
-            decoding="async"
-          />
+          <picture>
+            <source srcSet="/profile.avif" type="image/avif" />
+            <source srcSet="/profile.webp" type="image/webp" />
+            <img
+              src="/profile-opt.jpg"
+              alt="CJ Chien portrait"
+              className="hero-bg-img"
+              width={1920}
+              height={742}
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
           <div className="hero-overlay" />
           <div className="container hero-content">
             <h1 className="hero-title">I&apos;m <span>CJ Chien</span></h1>
@@ -110,7 +115,6 @@ export default async function Home() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="top-track-link"
-                            aria-label={`${track.name} by ${track.artists.map(a => a.name).join(', ')}`}
                           >
                             <span className="top-track-index">{index + 1}.</span>
                             {track.album?.images?.[2]?.url && (
@@ -139,17 +143,11 @@ export default async function Home() {
               </div>
             </div>
 
-            <iframe
+            <SpotifyEmbed
               title="Spotify artist embed"
-              style={{ borderRadius: '0', marginBottom: '2rem', display: 'block' }}
               src="https://open.spotify.com/embed/artist/2AfmfGFbe0A0WsTYm0SDTx?utm_source=generator&theme=0"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allowFullScreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            ></iframe>
+              height={352}
+            />
 
           </section>
 
