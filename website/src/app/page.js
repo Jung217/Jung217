@@ -13,10 +13,18 @@ export default async function Home() {
     <>
       <div className="animate-fade-in">
         <section className="hero">
-          <div className="hero-bg" style={{ backgroundImage: "url('/profile.jpg')" }} />
+          <img
+            src="/profile.jpg"
+            alt="CJ Chien portrait"
+            className="hero-bg-img"
+            width={1920}
+            height={742}
+            fetchPriority="high"
+            decoding="async"
+          />
           <div className="hero-overlay" />
           <div className="container hero-content">
-            <h1 className="hero-title">I'm <span>CJ Chien</span></h1>
+            <h1 className="hero-title">I&apos;m <span>CJ Chien</span></h1>
             <div className="hero-subtitle">
               <TerminalText typingSpeed={50} text="Always Be Willful, Follow No One." />
             </div>
@@ -44,6 +52,10 @@ export default async function Home() {
                 src="https://raw.githubusercontent.com/Jung217/Jung217/main/profile-3d-contrib-simplify/profile-night-rainbow.svg"
                 alt="GitHub Contribution Graph"
                 className="gh-contrib-img"
+                loading="lazy"
+                decoding="async"
+                width={1200}
+                height={400}
               />
             </div>
 
@@ -98,13 +110,18 @@ export default async function Home() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="top-track-link"
+                            aria-label={`${track.name} by ${track.artists.map(a => a.name).join(', ')}`}
                           >
                             <span className="top-track-index">{index + 1}.</span>
                             {track.album?.images?.[2]?.url && (
                               <img
                                 src={track.album.images[2].url}
-                                alt={track.album.name}
+                                alt={`${track.album.name} album cover`}
                                 className="top-track-img"
+                                width={40}
+                                height={40}
+                                loading="lazy"
+                                decoding="async"
                               />
                             )}
                             <div className="top-track-info">
@@ -123,7 +140,7 @@ export default async function Home() {
             </div>
 
             <iframe
-              data-testid="embed-iframe"
+              title="Spotify artist embed"
               style={{ borderRadius: '0', marginBottom: '2rem', display: 'block' }}
               src="https://open.spotify.com/embed/artist/2AfmfGFbe0A0WsTYm0SDTx?utm_source=generator&theme=0"
               width="100%"

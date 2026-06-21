@@ -103,13 +103,15 @@ export default function SkillCard() {
                                 </svg>
                             </div>
                             {/* 頭像：使用真實 GitHub 大頭貼 */}
-                            <a href="https://github.com/Jung217" target="_blank" rel="noreferrer" className="gc-pfp-link">
+                            <a href="https://github.com/Jung217" target="_blank" rel="noreferrer" className="gc-pfp-link" aria-label="Jung217 GitHub profile">
                                 <img
                                     className="gc-pfp"
                                     src="https://avatars.githubusercontent.com/u/99934895?v=4&size=64"
                                     alt="Jung217"
                                     width="28"
                                     height="28"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </a>
                         </div>

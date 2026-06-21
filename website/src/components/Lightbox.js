@@ -13,14 +13,15 @@ export default function Lightbox({ src, alt = 'Large view', onClose }) {
     }, [onClose]);
 
     return createPortal(
-        <div className="pc-lightbox" onClick={onClose}>
+        <div className="pc-lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label="Image preview">
             <img
                 src={src}
                 alt={alt}
                 className="pc-lightbox-img"
                 onClick={(e) => e.stopPropagation()}
+                decoding="async"
             />
-            <button className="pc-lightbox-close" onClick={onClose}>✕</button>
+            <button className="pc-lightbox-close" onClick={onClose} aria-label="Close preview">✕</button>
         </div>,
         document.body
     );

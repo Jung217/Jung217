@@ -21,7 +21,7 @@
   --glass-bg: rgba(9, 9, 9, 0.65);
   --glass-border: rgba(255, 255, 255, 0.05);
 
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-inter, 'Inter'), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -404,15 +404,14 @@ h6 {
   overflow: hidden;
 }
 
-.hero-bg {
+.hero-bg-img {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   z-index: 0;
 }
 
@@ -464,6 +463,7 @@ h6 {
 .section {
   padding: 3rem 0;
   border-top: 1px solid var(--border-color);
+  contain: layout style;
 }
 
 .section h2 {
@@ -2072,6 +2072,7 @@ a.gc-pr:hover {
     inset 0 0 5px rgba(255, 255, 255, 0.08),
     0 5px 20px rgba(0, 0, 0, 0.4);
   transition: background 0.5s;
+  contain: layout style;
 }
 
 .sf-card:hover {

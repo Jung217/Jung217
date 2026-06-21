@@ -84,6 +84,9 @@ export default function PotteryOrganic({ images = [] }) {
                                         alt={`Pottery ${idx + 1}`}
                                         className="po-img"
                                         loading="lazy"
+                                        decoding="async"
+                                        width={600}
+                                        height={600}
                                     />
                                 </div>
                             </div>

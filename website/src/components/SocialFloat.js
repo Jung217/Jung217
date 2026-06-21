@@ -59,7 +59,7 @@ export default function SocialFloat() {
                         <span />
                         <span />
                         <span />
-                        <a href={s.url} target="_blank" rel="noopener noreferrer">
+                        <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
                             {s.icon}
                         </a>
                         <div className="sf-text">{s.name}</div>

@@ -63,6 +63,8 @@ function FilmCard({ item }) {
                             className="film-card-cover-img"
                             loading="lazy"
                             decoding="async"
+                            width={600}
+                            height={450}
                         />
                     )}
                 </div>

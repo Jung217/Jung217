@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const SCROLL_HIDE_THRESHOLD = 80;
-// 必須與 CSS transition 持續時間一致
 const MENU_CLOSE_DELAY_MS = 300;
 
 export default function NavBar() {

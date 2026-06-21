@@ -111,7 +111,14 @@ export default function CurrentlyPlaying() {
         <a href={songInfo.songUrl} target="_blank" rel="noopener noreferrer" className="currently-playing active">
             {songInfo.albumImageUrl && (
                 <div className="cp-album-art">
-                    <img src={songInfo.albumImageUrl} alt={`${songInfo.title} cover`} />
+                    <img
+                        src={songInfo.albumImageUrl}
+                        alt={`${songInfo.title} album cover`}
+                        width={64}
+                        height={64}
+                        loading="lazy"
+                        decoding="async"
+                    />
                     <div className="cp-overlay-cd" />
                 </div>
             )}
